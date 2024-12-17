@@ -1,4 +1,4 @@
-package learn.qzy.searchbackend.config;
+package learn.qzy.searchbackend.util;
 
 import org.apache.http.HttpHost;
 import org.elasticsearch.client.RestClient;

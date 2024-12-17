@@ -1,4 +1,4 @@
-package learn.qzy.searchbackend;
+package learn.qzy.searchbackend.es;
 
 import learn.qzy.searchbackend.model.entity.ContentUser;
 import learn.qzy.searchbackend.service.ContentUserService;

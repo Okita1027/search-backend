@@ -2,6 +2,7 @@ package learn.qzy.searchbackend.controller;
 
 import jakarta.annotation.Resource;
 import learn.qzy.searchbackend.model.entity.ContentPicture;
+import learn.qzy.searchbackend.model.vo.ContentPictureVO;
 import learn.qzy.searchbackend.service.ContentPictureService;
 import learn.qzy.searchbackend.util.Result;
 import org.springframework.web.bind.annotation.*;
@@ -18,7 +19,7 @@ public class PictureController {
     private ContentPictureService pictureService;
 
     @GetMapping
-    public Result<ContentPicture> getPicture(@RequestParam String text) {
+    public Result<ContentPictureVO> getPictureList(@RequestParam String text) {
         return pictureService.getPictureList(text);
     }
 }

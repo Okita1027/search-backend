@@ -1,11 +1,8 @@
 package learn.qzy.searchbackend.service.impl;
 
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import learn.qzy.searchbackend.config.ESClient;
-import learn.qzy.searchbackend.exception.ThrowUtils;
+import learn.qzy.searchbackend.util.ESClient;
 import learn.qzy.searchbackend.model.entity.ContentArticle;
-import learn.qzy.searchbackend.model.entity.ContentPicture;
 import learn.qzy.searchbackend.model.vo.ContentArticleVO;
 import learn.qzy.searchbackend.service.ContentArticleService;
 import learn.qzy.searchbackend.mapper.ContentArticleMapper;
@@ -15,7 +12,6 @@ import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.RestHighLevelClient;
-import org.elasticsearch.common.unit.Fuzziness;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.elasticsearch.search.fetch.subphase.highlight.HighlightBuilder;
@@ -97,7 +93,6 @@ public class ContentArticleServiceImpl extends ServiceImpl<ContentArticleMapper,
         SearchRequest request = new SearchRequest("content_article");
         // 构建查询条件
         SearchSourceBuilder builder = new SearchSourceBuilder();
-//        builder.query(QueryBuilders.fuzzyQuery("title", title).fuzziness(Fuzziness.AUTO));
         String searchText = null;
         try {
             searchText = getOptions("content_article", "title_suggest", "title", title);

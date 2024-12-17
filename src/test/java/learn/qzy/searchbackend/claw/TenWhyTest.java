@@ -1,4 +1,4 @@
-package learn.qzy.searchbackend;
+package learn.qzy.searchbackend.claw;
 
 import cn.hutool.http.HttpRequest;
 import cn.hutool.json.JSONObject;
@@ -17,7 +17,7 @@ public class TenWhyTest {
     @Test
     void test10Why() {
         try {
-            for (int i = 0; i < 100; i++) {
+            for (int i = 0; i < 50; i++) {
                 String url = "https://whyta.cn/api/tx/tenwhy?key=f922bcb04085";
 
                 // 使用 Hutool 发起 GET 请求并获取响应
@@ -51,7 +51,7 @@ public class TenWhyTest {
     @Test
     void testQW() {
         try {
-            for (int i = 0; i < 20; i++) {
+            for (int i = 0; i < 50; i++) {
                 // 脑筋急转弯
                 String url = "https://api.52vmy.cn/api/wl/s/jzw";
 

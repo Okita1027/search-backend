@@ -3,6 +3,7 @@ package learn.qzy.searchbackend.service;
 import learn.qzy.searchbackend.model.entity.ContentPicture;
 import learn.qzy.searchbackend.model.entity.ContentUser;
 import com.baomidou.mybatisplus.extension.service.IService;
+import learn.qzy.searchbackend.model.vo.ContentUserVO;
 import learn.qzy.searchbackend.util.Result;
 
 /**
@@ -12,5 +13,5 @@ import learn.qzy.searchbackend.util.Result;
 */
 public interface ContentUserService extends IService<ContentUser> {
 
-    Result<ContentPicture> getUserList(String title);
+    Result<ContentUserVO> getUserList(String title);
 }

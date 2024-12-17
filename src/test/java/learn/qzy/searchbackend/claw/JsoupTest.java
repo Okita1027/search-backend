@@ -1,8 +1,5 @@
-package learn.qzy.searchbackend;
+package learn.qzy.searchbackend.claw;
 
-import cn.hutool.http.HttpRequest;
-import cn.hutool.json.JSONObject;
-import cn.hutool.json.JSONUtil;
 import jakarta.annotation.Resource;
 import learn.qzy.searchbackend.model.entity.ContentPicture;
 import learn.qzy.searchbackend.service.ContentPictureService;

@@ -18,7 +18,7 @@ public class ArticleController {
     private ContentArticleService articleService;
 
     @GetMapping
-    public Result<ContentArticleVO> getArticle(@RequestParam String text) {
+    public Result<ContentArticleVO> getArticleList(@RequestParam String text) {
         return articleService.getArticleList(text);
     }
 }

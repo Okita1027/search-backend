@@ -9,8 +9,17 @@ spring:
     url: jdbc:mysql://localhost:3306/project_search
     username: root
     password: root
+
   elasticsearch:
     uris: http://localhost:9200
+
+  data:
+    redis:
+      host: 172.19.159.165
+      password: 123456
+      port: 6379
+      database: 0
+
 server:
 #  address: 0.0.0.0
   port: 8081
@@ -19,6 +28,7 @@ server:
 #    session:
 #      cookie:
 #        max-age: 2592000
+
 
 mybatis-plus:
   configuration:
@@ -29,6 +39,7 @@ mybatis-plus:
       logic-delete-field: isDelete
       logic-delete-value: 1
       logic-not-delete-value: 0
+
 
 sa-token:
   # token 名称（同时也是 cookie 名称）

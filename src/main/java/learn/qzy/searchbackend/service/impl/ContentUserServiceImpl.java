@@ -1,15 +1,18 @@
 package learn.qzy.searchbackend.service.impl;
 
+import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import learn.qzy.searchbackend.model.entity.ContentPicture;
 import learn.qzy.searchbackend.model.entity.ContentUser;
+import learn.qzy.searchbackend.model.vo.ContentUserVO;
 import learn.qzy.searchbackend.service.ContentUserService;
 import learn.qzy.searchbackend.mapper.ContentUserMapper;
 import learn.qzy.searchbackend.util.Result;
 import learn.qzy.searchbackend.util.ResultGenerator;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -22,11 +25,12 @@ public class ContentUserServiceImpl extends ServiceImpl<ContentUserMapper, Conte
     implements ContentUserService {
 
     @Override
-    public Result<ContentPicture> getUserList(String title) {
+    public Result<ContentUserVO> getUserList(String title) {
         LambdaQueryWrapper<ContentUser> wrapper = new LambdaQueryWrapper<>();
         wrapper.like(ContentUser::getTitle, title);
         List<ContentUser> userList = this.list(wrapper);
-        return ResultGenerator.genSuccessResult(userList);
+        List<ContentUserVO> userVOList = BeanUtil.copyToList(userList, ContentUserVO.class);
+        return ResultGenerator.genSuccessResult(userVOList);
     }
 }
 
