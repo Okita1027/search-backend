@@ -24,7 +24,7 @@ public class ContentUserServiceImpl extends ServiceImpl<ContentUserMapper, Conte
     @Override
     public Result<ContentPicture> getUserList(String title) {
         LambdaQueryWrapper<ContentUser> wrapper = new LambdaQueryWrapper<>();
-        wrapper.eq(ContentUser::getTitle, title);
+        wrapper.like(ContentUser::getTitle, title);
         List<ContentUser> userList = this.list(wrapper);
         return ResultGenerator.genSuccessResult(userList);
     }

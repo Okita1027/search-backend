@@ -1,23 +1,19 @@
 package learn.qzy.searchbackend;
 
 import cn.hutool.http.HttpRequest;
+import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
 import jakarta.annotation.Resource;
 import learn.qzy.searchbackend.model.entity.ContentPicture;
 import learn.qzy.searchbackend.service.ContentPictureService;
-import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 
 /**
  * @author qzy
@@ -56,7 +52,6 @@ public class JsoupTest {
     void testDeletePicture() {
         pictureService.deleteExistsPicture("风景");
     }
-
 
 
     /*@Test
