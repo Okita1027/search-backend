@@ -17,8 +17,21 @@ public class ArticleController {
     @Resource
     private ContentArticleService articleService;
 
+    /**
+     * 获取文章列表
+     * @param text 文章标题
+     */
     @GetMapping
-    public Result<ContentArticleVO> getArticleList(@RequestParam String text) {
+    public Result<ContentArticleVO> getArticleList( String text) {
         return articleService.getArticleList(text);
+    }
+
+    /**
+     * 获取搜索候选项
+     * @param suggestText 文章标题
+     */
+    @GetMapping("/suggestion")
+    public Result<String> getSuggestion(@RequestParam String suggestText) {
+        return articleService.getSuggestion(suggestText);
     }
 }

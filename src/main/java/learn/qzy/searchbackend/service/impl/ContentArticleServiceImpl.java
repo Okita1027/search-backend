@@ -1,6 +1,9 @@
 package learn.qzy.searchbackend.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import learn.qzy.searchbackend.constant.enums.ErrorCodeEnum;
+import learn.qzy.searchbackend.exception.ThrowUtils;
 import learn.qzy.searchbackend.util.ESClient;
 import learn.qzy.searchbackend.model.entity.ContentArticle;
 import learn.qzy.searchbackend.model.vo.ContentArticleVO;
@@ -13,6 +16,7 @@ import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.RestHighLevelClient;
 import org.elasticsearch.index.query.QueryBuilders;
+import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.elasticsearch.search.fetch.subphase.highlight.HighlightBuilder;
 import org.elasticsearch.search.suggest.SuggestBuilder;
@@ -22,7 +26,9 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author qzy
@@ -87,6 +93,12 @@ public class ContentArticleServiceImpl extends ServiceImpl<ContentArticleMapper,
         return String.valueOf(result);
     }
 
+    /**
+     * 获取文章列表
+     *
+     * @param title 标题
+     * @return 文章列表
+     */
     @Override
     public Result<ContentArticleVO> getArticleList(String title) {
         // 创建搜索请求
@@ -127,11 +139,24 @@ public class ContentArticleServiceImpl extends ServiceImpl<ContentArticleMapper,
             }
         });
 
-
         return ResultGenerator.genSuccessResult(articleList);
     }
+
+
+    /**
+     * 获取搜索建议
+     *
+     * @param text 搜索词
+     * @return 搜索建议
+     */
+    @Override
+    public Result<String> getSuggestion(String text) {
+        LambdaQueryWrapper<ContentArticle> wrapper = new LambdaQueryWrapper<>();
+        wrapper.likeRight(ContentArticle::getTitle, text);
+        wrapper.last("LIMIT 10");
+        List<ContentArticle> list = this.list(wrapper);
+        List<String> result = list.stream().map(ContentArticle::getTitle).toList();
+        return ResultGenerator.genSuccessResult(result);
+    }
+
 }
-
-
-
-

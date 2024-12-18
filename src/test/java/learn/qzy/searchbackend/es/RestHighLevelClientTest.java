@@ -137,8 +137,8 @@ public class RestHighLevelClientTest {
         SearchRequest request = new SearchRequest("content_article");
         // 构建查询条件
         SearchSourceBuilder builder = new SearchSourceBuilder();
-//        builder.query(QueryBuilders.matchQuery("title", "Java教程"));
-        builder.query(QueryBuilders.matchQuery("content", "java"));
+        builder.query(QueryBuilders.matchQuery("title", "Java教程"));
+//        builder.query(QueryBuilders.matchQuery("content", "java"));
         request.source(builder);
 
         // 执行搜索
@@ -146,6 +146,8 @@ public class RestHighLevelClientTest {
 
         for (SearchHit hit : response.getHits().getHits()) {
             System.out.println("hit = " + hit);
+            String title = (String) hit.getSourceAsMap().get("title");
+            System.out.println("title = " + title);
         }
     }
 

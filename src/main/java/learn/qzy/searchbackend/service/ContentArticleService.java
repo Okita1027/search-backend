@@ -14,4 +14,6 @@ import learn.qzy.searchbackend.util.Result;
 public interface ContentArticleService extends IService<ContentArticle> {
 
     Result<ContentArticleVO> getArticleList(String title);
+
+    Result<String> getSuggestion(String text);
 }
