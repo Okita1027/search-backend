@@ -95,7 +95,6 @@ public class ContentArticleServiceImpl extends ServiceImpl<ContentArticleMapper,
 
     /**
      * 获取文章列表
-     *
      * @param title 标题
      * @return 文章列表
      */
@@ -105,6 +104,8 @@ public class ContentArticleServiceImpl extends ServiceImpl<ContentArticleMapper,
         SearchRequest request = new SearchRequest("content_article");
         // 构建查询条件
         SearchSourceBuilder builder = new SearchSourceBuilder();
+        // 最多查询出1000条数据
+        builder.size(1000);
         String searchText = null;
         try {
             searchText = getOptions("content_article", "title_suggest", "title", title);
@@ -128,7 +129,6 @@ public class ContentArticleServiceImpl extends ServiceImpl<ContentArticleMapper,
             e.printStackTrace();
             throw new RuntimeException(e);
         }
-
         // 获取高亮结果
         ArrayList<ContentArticleVO> articleList = new ArrayList<>();
         response.getHits().forEach(hit -> {
@@ -145,7 +145,6 @@ public class ContentArticleServiceImpl extends ServiceImpl<ContentArticleMapper,
 
     /**
      * 获取搜索建议
-     *
      * @param text 搜索词
      * @return 搜索建议
      */

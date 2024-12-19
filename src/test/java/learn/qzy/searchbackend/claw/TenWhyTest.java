@@ -65,9 +65,7 @@ public class TenWhyTest {
                 String result = jsonObject.getStr("data");
                 JSONObject json = JSONUtil.parseObj(result);
                 String title = json.getStr("question");
-                System.out.println("title = " + title);
                 String content = json.getStr("answer");
-                System.out.println("content = " + content);
 
                 ContentArticle article = new ContentArticle();
                 article.setTitle(title);

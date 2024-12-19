@@ -22,7 +22,7 @@ public class ArticleController {
      * @param text 文章标题
      */
     @GetMapping
-    public Result<ContentArticleVO> getArticleList( String text) {
+    public Result<ContentArticleVO> getArticleList(@RequestParam String text) {
         return articleService.getArticleList(text);
     }
 
