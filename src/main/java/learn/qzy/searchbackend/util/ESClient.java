@@ -19,7 +19,8 @@ public class ESClient {
     }
 
     public static void closeClient(RestHighLevelClient client) throws Exception {
-        if (client != null)
+        if (client != null) {
             client.close();
+        }
     }
 }

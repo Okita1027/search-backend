@@ -8,6 +8,9 @@ import org.springframework.data.elasticsearch.annotations.FieldType;
 
 import java.time.LocalDateTime;
 
+/**
+ * 这个类用不上，保留这个类用于以后复习
+ */
 @Document(indexName = "content_picture")
 public class ESContentPicture {
     private static final String DATE_TIME_PATTERN = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";

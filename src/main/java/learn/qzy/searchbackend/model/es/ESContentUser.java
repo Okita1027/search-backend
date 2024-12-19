@@ -7,6 +7,9 @@ import org.springframework.data.elasticsearch.annotations.FieldType;
 
 import java.time.LocalDateTime;
 
+/**
+ * 这个类用不上，保留它用于以后复习
+ */
 @Document(indexName = "content_user")
 public class ESContentUser {
 
