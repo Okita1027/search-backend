@@ -2,6 +2,7 @@ package learn.qzy.searchbackend.mapper;
 
 import learn.qzy.searchbackend.model.entity.ContentPicture;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.apache.ibatis.annotations.Update;
 
 /**
 * @author qzy
@@ -10,7 +11,8 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 * @Entity generator.ContentPicture
 */
 public interface ContentPictureMapper extends BaseMapper<ContentPicture> {
-
+    @Update("${sql}")
+    void executeResetID(String sql);
 }
 
 

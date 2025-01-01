@@ -41,8 +41,7 @@ public class ContentArticleServiceImpl extends ServiceImpl<ContentArticleMapper,
     private static final RestHighLevelClient client = ESClient.createClient();
 
     /**
-     * 纠正检索词
-     *
+     * 纠正检索词 / 模糊搜索
      * @param indexName   索引库名称
      * @param suggestName 建议名称
      * @param field       字段名称
@@ -136,6 +135,7 @@ public class ContentArticleServiceImpl extends ServiceImpl<ContentArticleMapper,
             if (hit.getHighlightFields().containsKey("title")) {
                 String highLightTitle = hit.getHighlightFields().get("title").fragments()[0].string();
                 articleList.add(new ContentArticleVO(highLightTitle, content));
+                System.out.println("highLightTitle = " + highLightTitle);
             }
         });
 

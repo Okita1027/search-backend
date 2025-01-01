@@ -4,6 +4,7 @@ import learn.qzy.searchbackend.model.entity.ContentPicture;
 import com.baomidou.mybatisplus.extension.service.IService;
 import learn.qzy.searchbackend.model.vo.ContentPictureVO;
 import learn.qzy.searchbackend.util.Result;
+import org.apache.ibatis.annotations.Update;
 
 /**
 * @author qzy
@@ -17,5 +18,6 @@ public interface ContentPictureService extends IService<ContentPicture> {
     void deleteExistsPicture(String title);
 
     Result<ContentPictureVO> getPictureList(String title);
+
 }
 
