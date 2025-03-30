@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="learn.qzy.searchbackend.mapper.ContentFileMapper">
+
+    <resultMap id="BaseResultMap" type="learn.qzy.searchbackend.model.entity.ContentFile">
+            <id property="id" column="id" />
+            <result property="fileName" column="file_name" />
+            <result property="filePath" column="file_path" />
+            <result property="fileType" column="file_type" />
+            <result property="createTime" column="create_time" />
+            <result property="updateTime" column="update_time" />
+            <result property="createBy" column="create_by" />
+            <result property="updateBy" column="update_by" />
+            <result property="isDeleted" column="is_deleted" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,file_name,file_path,file_type,create_time,update_time,
+        create_by,update_by,is_deleted
+    </sql>
+</mapper>

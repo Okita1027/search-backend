@@ -14,7 +14,6 @@ import lombok.Data;
  * @TableName content_article
  */
 @TableName(value ="content_article")
-//@Data
 public class ContentArticle implements Serializable {
     /**
      * id

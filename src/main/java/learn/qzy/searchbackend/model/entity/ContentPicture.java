@@ -13,7 +13,6 @@ import java.time.LocalDateTime;
  * @TableName content_picture
  */
 @TableName(value ="content_picture")
-//@Data
 public class ContentPicture implements Serializable {
     /**
      * id
