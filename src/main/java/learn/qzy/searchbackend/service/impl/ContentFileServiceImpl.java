@@ -10,7 +10,11 @@ import learn.qzy.searchbackend.mapper.ContentFileMapper;
 import learn.qzy.searchbackend.util.Result;
 import learn.qzy.searchbackend.util.ResultGenerator;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,5 +45,16 @@ public class ContentFileServiceImpl extends ServiceImpl<ContentFileMapper, Conte
         List<ContentFile> videoList = list(wrapper);
         List<ContentFileVO> videoVOList = BeanUtil.copyToList(videoList, ContentFileVO.class);
         return ResultGenerator.genSuccessResult(videoVOList);
+    }
+
+    @Override
+    public void uploadFile(MultipartFile file) throws Exception {
+        // 添加文件保存逻辑，例如保存到本地磁盘或云存储
+        if (!file.isEmpty()) {
+            byte[] bytes = file.getBytes();
+            // 示例：保存到本地磁盘
+            Path path = Paths.get("uploads/" + file.getOriginalFilename());
+            Files.write(path, bytes);
+        }
     }
 }
