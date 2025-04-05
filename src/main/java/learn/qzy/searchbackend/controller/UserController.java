@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/user")
 public class UserController {
+
     @Resource
     private ContentUserService userService;
 
@@ -24,4 +25,5 @@ public class UserController {
     public Result<ContentUserVO> getUserList(@RequestParam String text) {
         return userService.getUserList(text);
     }
+
 }

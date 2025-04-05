@@ -1,6 +1,6 @@
 package learn.qzy.searchbackend.mapper;
 
-import learn.qzy.searchbackend.model.entity.ContentFile;
+import learn.qzy.searchbackend.model.entity.ContentAudio;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**
@@ -9,7 +9,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 * @createDate 2025-03-27 21:02:55
 * @Entity learn.qzy.searchbackend.model.entity.ContentFile
 */
-public interface ContentFileMapper extends BaseMapper<ContentFile> {
+public interface ContentAudioMapper extends BaseMapper<ContentAudio> {
 
 }
 

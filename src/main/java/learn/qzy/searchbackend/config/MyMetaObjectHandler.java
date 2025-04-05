@@ -3,6 +3,8 @@ package learn.qzy.searchbackend.config;
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.reflection.MetaObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
@@ -16,12 +18,14 @@ import java.time.LocalDateTime;
 @Component
 public class MyMetaObjectHandler implements MetaObjectHandler {
 
+    Logger logger = LoggerFactory.getLogger(MyMetaObjectHandler.class);
+
     /**
      * @description 在完成插入操作自动填充
      */
     @Override
     public void insertFill(MetaObject metaObject) {
-//        log.info("公共字段自动填充【insert】...");
+        logger.info("公共字段自动填充【insert】...");
         metaObject.setValue("createTime", LocalDateTime.now());
         metaObject.setValue("updateTime", LocalDateTime.now());
     }
@@ -31,7 +35,7 @@ public class MyMetaObjectHandler implements MetaObjectHandler {
      */
     @Override
     public void updateFill(MetaObject metaObject) {
-//        log.info("公共字段自动填充【update】...");
+        logger.info("公共字段自动填充【update】...");
         metaObject.setValue("updateTime", LocalDateTime.now());
     }
 }

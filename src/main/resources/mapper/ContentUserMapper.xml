@@ -6,15 +6,19 @@
 
     <resultMap id="BaseResultMap" type="learn.qzy.searchbackend.model.entity.ContentUser">
             <id property="id" column="id" jdbcType="BIGINT"/>
-            <result property="title" column="title" jdbcType="VARCHAR"/>
+            <result property="username" column="username" jdbcType="VARCHAR"/>
+            <result property="password" column="password" jdbcType="VARCHAR"/>
+            <result property="nickname" column="nickname" jdbcType="VARCHAR"/>
+            <result property="profile" column="profile" jdbcType="VARCHAR"/>
             <result property="avatarUrl" column="avatar_url" jdbcType="VARCHAR"/>
+            <result property="editTime" column="edit_time" jdbcType="TIMESTAMP"/>
             <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
             <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
             <result property="isDeleted" column="is_deleted" jdbcType="TINYINT"/>
     </resultMap>
 
     <sql id="Base_Column_List">
-        id,title,avatar_url, profile,
-        create_time,update_time,is_deleted
+        id,username,password,nickname,profile,avatar_url,
+        edit_time,create_time,update_time,is_deleted
     </sql>
 </mapper>

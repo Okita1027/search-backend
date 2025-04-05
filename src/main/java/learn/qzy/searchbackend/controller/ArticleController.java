@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/post")
 public class ArticleController {
+
     @Resource
     private ContentArticleService articleService;
 
@@ -34,4 +35,5 @@ public class ArticleController {
     public Result<String> getSuggestion(@RequestParam String suggestText) {
         return articleService.getSuggestion(suggestText);
     }
+
 }

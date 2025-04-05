@@ -4,51 +4,51 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import lombok.Getter;
-import lombok.Setter;
 
 import java.io.Serial;
 import java.io.Serializable;
-import java.time.LocalDateTime;
+import java.util.Date;
+
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * 
- * @TableName content_picture
+ * @TableName content_file
  */
-@TableName(value ="content_picture")
+@TableName(value ="content_file")
 @Getter
 @Setter
-public class ContentPicture implements Serializable {
-
+public class ContentAudio implements Serializable {
     @Serial
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;
 
     /**
-     * id
+     * 主键
      */
     @TableId(type = IdType.AUTO)
     private Long id;
 
     /**
-     * 标题
+     * 文件名称
      */
-    private String title;
+    private String fileName;
 
     /**
-     * 图片链接
+     * 文件路径
      */
-    private String pictureUrl;
+    private String filePath;
 
     /**
      * 创建时间
      */
-    private LocalDateTime createTime;
+    private Date createTime;
 
     /**
-     * 更新时间
+     * 修改时间
      */
-    private LocalDateTime updateTime;
+    private Date updateTime;
 
     /**
      * 创建人
@@ -56,12 +56,12 @@ public class ContentPicture implements Serializable {
     private String createBy;
 
     /**
-     * 更新人
+     * 修改人
      */
     private String updateBy;
 
     /**
-     * 是否删除
+     * 逻辑删除（0未删除；1删除）
      */
     private Integer isDeleted;
 

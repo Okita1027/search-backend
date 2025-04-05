@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/picture")
 public class PictureController {
+
     @Resource
     private ContentPictureService pictureService;
 
@@ -22,4 +23,5 @@ public class PictureController {
     public Result<ContentPictureVO> getPictureList(@RequestParam String text) {
         return pictureService.getPictureList(text);
     }
+
 }

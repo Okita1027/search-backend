@@ -20,6 +20,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/admin")
 public class AdminController {
+
     @Resource
     private UserService userService;
 
@@ -28,4 +29,5 @@ public class AdminController {
         List<User> list = userService.list();
         return ResultGenerator.genSuccessResult(list);
     }
+
 }

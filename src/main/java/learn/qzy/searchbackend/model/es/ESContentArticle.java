@@ -1,5 +1,7 @@
 package learn.qzy.searchbackend.model.es;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
@@ -8,6 +10,8 @@ import org.springframework.data.elasticsearch.annotations.FieldType;
 import java.time.LocalDateTime;
 
 @Document(indexName = "content_article")
+@Getter
+@Setter
 public class ESContentArticle {
 //    private static final String DATE_TIME_PATTERN = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
     @Id
@@ -24,34 +28,6 @@ public class ESContentArticle {
     @Field(name = "is_deleted")
     private Integer isDeleted;
 */
-
-    public ESContentArticle() {
-    }
-
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
-    }
 
 
 }

@@ -3,10 +3,10 @@ package learn.qzy.searchbackend.service.impl;
 import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import learn.qzy.searchbackend.model.entity.ContentFile;
-import learn.qzy.searchbackend.model.vo.ContentFileVO;
-import learn.qzy.searchbackend.service.ContentFileService;
-import learn.qzy.searchbackend.mapper.ContentFileMapper;
+import learn.qzy.searchbackend.model.entity.ContentAudio;
+import learn.qzy.searchbackend.model.vo.ContentAudioVO;
+import learn.qzy.searchbackend.service.ContentAudioService;
+import learn.qzy.searchbackend.mapper.ContentAudioMapper;
 import learn.qzy.searchbackend.util.Result;
 import learn.qzy.searchbackend.util.ResultGenerator;
 import org.springframework.stereotype.Service;
@@ -15,7 +15,6 @@ import org.springframework.web.multipart.MultipartFile;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -24,30 +23,27 @@ import java.util.List;
  * @createDate 2025-03-27 21:02:55
  */
 @Service
-public class ContentFileServiceImpl extends ServiceImpl<ContentFileMapper, ContentFile>
-        implements ContentFileService {
+public class ContentAudioServiceImpl extends ServiceImpl<ContentAudioMapper, ContentAudio>
+        implements ContentAudioService {
 
     @Override
-    public Result<ContentFileVO> getAudioList(String fileName) {
-        LambdaQueryWrapper<ContentFile> wrapper = new LambdaQueryWrapper<>();
-        wrapper.like(ContentFile::getFileName, fileName);
-        wrapper.eq(ContentFile::getFileType, 0);
-        List<ContentFile> audioList = list(wrapper);
-        List<ContentFileVO> audioVOList = BeanUtil.copyToList(audioList, ContentFileVO.class);
+    public Result<ContentAudioVO> getAudioList(String fileName) {
+        LambdaQueryWrapper<ContentAudio> wrapper = new LambdaQueryWrapper<>();
+        wrapper.like(ContentAudio::getFileName, fileName);
+        List<ContentAudio> audioList = list(wrapper);
+        List<ContentAudioVO> audioVOList = BeanUtil.copyToList(audioList, ContentAudioVO.class);
         return ResultGenerator.genSuccessResult(audioVOList);
     }
 
     @Override
-    public Result<ContentFileVO> getVideoList(String fileName) {
-        LambdaQueryWrapper<ContentFile> wrapper = new LambdaQueryWrapper<>();
-        wrapper.like(ContentFile::getFileName, fileName);
-        wrapper.eq(ContentFile::getFileType, 1);
-        List<ContentFile> videoList = list(wrapper);
-        List<ContentFileVO> videoVOList = BeanUtil.copyToList(videoList, ContentFileVO.class);
+    public Result<ContentAudioVO> getVideoList(String fileName) {
+        LambdaQueryWrapper<ContentAudio> wrapper = new LambdaQueryWrapper<>();
+        wrapper.like(ContentAudio::getFileName, fileName);
+        List<ContentAudio> videoList = list(wrapper);
+        List<ContentAudioVO> videoVOList = BeanUtil.copyToList(videoList, ContentAudioVO.class);
         return ResultGenerator.genSuccessResult(videoVOList);
     }
 
-    @Override
     public void uploadFile(MultipartFile file) throws Exception {
         // 添加文件保存逻辑，例如保存到本地磁盘或云存储
         if (!file.isEmpty()) {

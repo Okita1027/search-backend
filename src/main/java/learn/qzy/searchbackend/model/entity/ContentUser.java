@@ -4,17 +4,26 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+
+import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Date;
+
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
- * 
  * @TableName content_user
  */
-@TableName(value ="content_user")
+@TableName(value = "content_user")
+@Getter
+@Setter
 public class ContentUser implements Serializable {
+    @Serial
+    @TableField(exist = false)
+    private static final long serialVersionUID = 1L;
     /**
      * id
      */
@@ -22,9 +31,19 @@ public class ContentUser implements Serializable {
     private Long id;
 
     /**
+     * 用户名
+     */
+    private String username;
+
+    /**
+     * 密码
+     */
+    private String password;
+
+    /**
      * 标题
      */
-    private String title;
+    private String nickname;
 
     /**
      * 个性签名
@@ -35,6 +54,11 @@ public class ContentUser implements Serializable {
      * 头像链接
      */
     private String avatarUrl;
+
+    /**
+     * 用户编辑时间
+     */
+    private LocalDateTime editTime;
 
     /**
      * 创建时间
@@ -51,74 +75,4 @@ public class ContentUser implements Serializable {
      */
     private Integer isDeleted;
 
-    @TableField(exist = false)
-    private static final long serialVersionUID = 1L;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getProfile() {
-        return profile;
-    }
-
-    public void setProfile(String profile) {
-        this.profile = profile;
-    }
-
-    public String getAvatarUrl() {
-        return avatarUrl;
-    }
-
-    public void setAvatarUrl(String avatarUrl) {
-        this.avatarUrl = avatarUrl;
-    }
-
-    public LocalDateTime getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(LocalDateTime createTime) {
-        this.createTime = createTime;
-    }
-
-    public LocalDateTime getUpdateTime() {
-        return updateTime;
-    }
-
-    public void setUpdateTime(LocalDateTime updateTime) {
-        this.updateTime = updateTime;
-    }
-
-    public Integer getIsDeleted() {
-        return isDeleted;
-    }
-
-    public void setIsDeleted(Integer isDeleted) {
-        this.isDeleted = isDeleted;
-    }
-
-    @Override
-    public String toString() {
-        return "ContentUser{" +
-                "id=" + id +
-                ", title='" + title + '\'' +
-                ", avatarUrl='" + avatarUrl + '\'' +
-                ", createTime=" + createTime +
-                ", updateTime=" + updateTime +
-                ", isDeleted=" + isDeleted +
-                '}';
-    }
 }
