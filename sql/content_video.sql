@@ -11,7 +11,7 @@
  Target Server Version : 80400 (8.4.0)
  File Encoding         : 65001
 
- Date: 05/04/2025 22:54:26
+ Date: 06/04/2025 14:42:43
 */
 
 SET NAMES utf8mb4;
@@ -32,10 +32,5 @@ CREATE TABLE `content_video`  (
   `is_deleted` tinyint UNSIGNED NULL DEFAULT 0,
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '视频表' ROW_FORMAT = Dynamic;
-
--- ----------------------------
--- Records of content_video
--- ----------------------------
-INSERT INTO `content_video` VALUES (1, '异星虫群片段', 'Video/异星虫群片段.mp4', '2025-04-05 22:44:06', '2025-04-05 22:44:06', 'admin', 'admin', 0);
 
 SET FOREIGN_KEY_CHECKS = 1;

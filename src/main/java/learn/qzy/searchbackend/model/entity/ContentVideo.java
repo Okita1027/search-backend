@@ -9,61 +9,64 @@ import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Date;
-
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
 /**
- * 
- * @TableName content_file
+ * 视频表
+ * @TableName content_video
  */
-@TableName(value ="content_file")
-@Getter
-@Setter
-public class ContentAudio implements Serializable {
-    @Serial
-    @TableField(exist = false)
-    private static final long serialVersionUID = 1L;
-
+@TableName(value ="content_video")
+@Data
+public class ContentVideo implements Serializable {
     /**
-     * 主键
+     * 
      */
-    @TableId(type = IdType.AUTO)
+    @TableId(value = "id", type = IdType.AUTO)
     private Long id;
 
     /**
      * 文件名称
      */
+    @TableField(value = "file_name")
     private String fileName;
 
     /**
      * 文件路径
      */
+    @TableField(value = "file_path")
     private String filePath;
 
     /**
-     * 创建时间
+     * 
      */
+    @TableField(value = "create_time")
     private LocalDateTime createTime;
 
     /**
-     * 修改时间
+     * 
      */
+    @TableField(value = "update_time")
     private LocalDateTime updateTime;
 
     /**
-     * 创建人
+     * 
      */
+    @TableField(value = "create_by")
     private String createBy;
 
     /**
-     * 修改人
+     * 
      */
+    @TableField(value = "update_by")
     private String updateBy;
 
     /**
-     * 逻辑删除（0未删除；1删除）
+     * 
      */
+    @TableField(value = "is_deleted")
     private Integer isDeleted;
 
+    @Serial
+    @TableField(exist = false)
+    private static final long serialVersionUID = 1L;
 }

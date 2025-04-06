@@ -14,6 +14,4 @@ public interface ContentAudioService extends IService<ContentAudio> {
 
     Result<ContentAudioVO> getAudioList(String fileName);
 
-    Result<ContentAudioVO> getVideoList(String fileName);
-
 }

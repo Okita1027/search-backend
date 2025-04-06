@@ -27,7 +27,7 @@ public class ContentUserServiceImpl extends ServiceImpl<ContentUserMapper, Conte
     @Override
     public Result<ContentUserVO> getUserList(String title) {
         LambdaQueryWrapper<ContentUser> wrapper = new LambdaQueryWrapper<>();
-        wrapper.like(ContentUser::getTitle, title);
+        wrapper.like(ContentUser::getNickname, title);
         List<ContentUser> userList = this.list(wrapper);
         List<ContentUserVO> userVOList = BeanUtil.copyToList(userList, ContentUserVO.class);
         return ResultGenerator.genSuccessResult(userVOList);

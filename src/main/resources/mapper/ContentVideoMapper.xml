@@ -2,10 +2,10 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="learn.qzy.searchbackend.mapper.ContentAudioMapper">
+<mapper namespace="learn.qzy.searchbackend.mapper.ContentVideoMapper">
 
-    <resultMap id="BaseResultMap" type="learn.qzy.searchbackend.model.entity.ContentAudio">
-        <id property="id" column="id"/>
+    <resultMap id="BaseResultMap" type="learn.qzy.searchbackend.model.entity.ContentVideo">
+        <id property="id" column="id" jdbcType="BIGINT"/>
         <result property="fileName" column="file_name" jdbcType="VARCHAR"/>
         <result property="filePath" column="file_path" jdbcType="VARCHAR"/>
         <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
@@ -16,7 +16,7 @@
     </resultMap>
 
     <sql id="Base_Column_List">
-        id,file_name,file_path,create_time,update_time,
-        create_by,update_by,is_deleted
+        id,file_name,file_path,create_time,update_time,create_by,
+        update_by,is_deleted
     </sql>
 </mapper>

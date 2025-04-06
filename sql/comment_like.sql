@@ -11,26 +11,26 @@
  Target Server Version : 80400 (8.4.0)
  File Encoding         : 65001
 
- Date: 06/04/2025 14:42:24
+ Date: 06/04/2025 14:42:11
 */
 
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
 
 -- ----------------------------
--- Table structure for content_audio
+-- Table structure for comment_like
 -- ----------------------------
-DROP TABLE IF EXISTS `content_audio`;
-CREATE TABLE `content_audio`  (
+DROP TABLE IF EXISTS `comment_like`;
+CREATE TABLE `comment_like`  (
   `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT,
-  `file_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '文件名称',
-  `file_path` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '文件路径',
+  `comment_id` bigint UNSIGNED NOT NULL COMMENT '评论ID',
+  `like_count` bigint UNSIGNED NOT NULL DEFAULT 0 COMMENT '点赞数量',
   `create_time` datetime NULL DEFAULT CURRENT_TIMESTAMP,
   `update_time` datetime NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `create_by` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT 'admin',
   `update_by` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT 'admin',
   `is_deleted` tinyint UNSIGNED NULL DEFAULT 0,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '音频表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '评论点赞表' ROW_FORMAT = Dynamic;
 
 SET FOREIGN_KEY_CHECKS = 1;

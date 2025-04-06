@@ -35,14 +35,6 @@ public class ContentAudioServiceImpl extends ServiceImpl<ContentAudioMapper, Con
         return ResultGenerator.genSuccessResult(audioVOList);
     }
 
-    @Override
-    public Result<ContentAudioVO> getVideoList(String fileName) {
-        LambdaQueryWrapper<ContentAudio> wrapper = new LambdaQueryWrapper<>();
-        wrapper.like(ContentAudio::getFileName, fileName);
-        List<ContentAudio> videoList = list(wrapper);
-        List<ContentAudioVO> videoVOList = BeanUtil.copyToList(videoList, ContentAudioVO.class);
-        return ResultGenerator.genSuccessResult(videoVOList);
-    }
 
     public void uploadFile(MultipartFile file) throws Exception {
         // 添加文件保存逻辑，例如保存到本地磁盘或云存储

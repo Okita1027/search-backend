@@ -1,7 +1,8 @@
 package learn.qzy.searchbackend.controller;
 
 import learn.qzy.searchbackend.model.vo.ContentAudioVO;
-import learn.qzy.searchbackend.service.ContentAudioService;
+import learn.qzy.searchbackend.model.vo.ContentVideoVO;
+import learn.qzy.searchbackend.service.ContentVideoService;
 import learn.qzy.searchbackend.util.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -13,16 +14,17 @@ import org.springframework.web.multipart.MultipartFile;
  * @title 文件（音频、视频）控制类
  */
 @RestController
-@RequestMapping("/audio")
-public class AudioController {
+@RequestMapping("/video")
+public class VideoController {
 
     @Autowired
-    private ContentAudioService fileService;
+    private ContentVideoService videoService;
 
     @GetMapping()
-    public Result<ContentAudioVO> audio(@RequestParam("text") String fileName) {
-        return fileService.getAudioList(fileName);
+    public Result<ContentVideoVO> video(@RequestParam("text") String fileName) {
+        return videoService.getVideoList(fileName);
     }
+
 
     @PostMapping("/upload")
     public Result<String> uploadFile(@RequestParam("file") MultipartFile file) {
