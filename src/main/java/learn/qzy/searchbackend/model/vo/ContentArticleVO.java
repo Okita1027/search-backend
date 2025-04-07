@@ -12,6 +12,7 @@ import lombok.Setter;
 public class ContentArticleVO {
 
     private String title;
+
     private String content;
 
 }

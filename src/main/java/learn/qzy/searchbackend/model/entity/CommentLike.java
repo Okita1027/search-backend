@@ -18,7 +18,7 @@ import lombok.Data;
 @Data
 public class CommentLike implements Serializable {
     /**
-     * 
+     * ID主键
      */
     @TableId(value = "id", type = IdType.AUTO)
     private Long id;
@@ -36,31 +36,31 @@ public class CommentLike implements Serializable {
     private Long likeCount;
 
     /**
-     * 
+     * 创建时间
      */
     @TableField(value = "create_time")
     private LocalDateTime createTime;
 
     /**
-     * 
+     * 修改时间
      */
     @TableField(value = "update_time")
     private LocalDateTime updateTime;
 
     /**
-     * 
+     * 创建人
      */
     @TableField(value = "create_by")
     private String createBy;
 
     /**
-     * 
+     * 修改人
      */
     @TableField(value = "update_by")
     private String updateBy;
 
     /**
-     * 
+     * 逻辑删除（0-未删，1-已删）
      */
     @TableField(value = "is_deleted")
     private Integer isDeleted;

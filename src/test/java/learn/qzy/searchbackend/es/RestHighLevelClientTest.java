@@ -304,7 +304,7 @@ public class RestHighLevelClientTest {
         List<ContentUser> userList = userService.list();
         for (ContentUser user : userList) {
             Long id = user.getId();
-            String title = user.getTitle();
+            String title = user.getNickname();
             String profile = user.getProfile();
             String avatarUrl = user.getAvatarUrl();
             IndexRequest indexRequest = new IndexRequest("content_user");

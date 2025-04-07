@@ -17,17 +17,12 @@ import lombok.Data;
 @TableName(value ="article_comment")
 @Data
 public class ArticleComment implements Serializable {
+
     /**
      * ID主键
      */
     @TableId(value = "id", type = IdType.AUTO)
     private Long id;
-
-    /**
-     * 父级评论用户ID（content_user）
-     */
-    @TableField(value = "parent_id")
-    private Long parentId;
 
     /**
      * 文章ID
@@ -36,10 +31,34 @@ public class ArticleComment implements Serializable {
     private Long articleId;
 
     /**
-     * 当前评论用户ID（content_user）
+     * 楼层号
      */
-    @TableField(value = "user_id")
-    private Long userId;
+    @TableField(value = "serial_number")
+    private Long serialNumber;
+
+    /**
+     * 父级评论用户名
+     */
+    @TableField(value = "parent_username")
+    private String parentUsername;
+
+    /**
+     * 父级评论用户昵称
+     */
+    @TableField(value = "parent_nickname")
+    private String parentNickname;
+
+    /**
+     * 当前评论用户名
+     */
+    @TableField(value = "current_username")
+    private String currentUsername;
+
+    /**
+     * 当前评论用户昵称
+     */
+    @TableField(value = "current_nickname")
+    private String currentNickname;
 
     /**
      * 评论内容
@@ -60,7 +79,7 @@ public class ArticleComment implements Serializable {
     private LocalDateTime updateTime;
 
     /**
-     * 创建人—评论用户昵称
+     * 创建人
      */
     @TableField(value = "create_by")
     private String createBy;

@@ -1,12 +1,14 @@
 package learn.qzy.searchbackend.exception;
 
 import learn.qzy.searchbackend.constant.enums.ErrorCodeEnum;
+import lombok.Getter;
 
 /**
  * @author qzy
  * @create 2024/12/10 13:50 星期二
- * @title
+ * @title 业务异常类
  */
+@Getter
 public class BusinessException extends RuntimeException {
 
     /**
@@ -29,8 +31,5 @@ public class BusinessException extends RuntimeException {
         this.code = errorCodeEnum.getCode();
     }
 
-    public int getCode() {
-        return code;
-    }
 }
 

@@ -5,7 +5,7 @@ import learn.qzy.searchbackend.constant.enums.ErrorCodeEnum;
 /**
  * @author qzy
  * @create 2024/12/10 13:58 星期二
- * @title
+ * @title 抛出异常工具类
  */
 public class ThrowUtils {
 

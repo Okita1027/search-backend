@@ -6,9 +6,12 @@
 
     <resultMap id="BaseResultMap" type="learn.qzy.searchbackend.model.entity.ArticleComment">
             <id property="id" column="id" jdbcType="BIGINT"/>
-            <result property="parentId" column="parent_id" jdbcType="BIGINT"/>
             <result property="articleId" column="article_id" jdbcType="BIGINT"/>
-            <result property="userId" column="user_id" jdbcType="BIGINT"/>
+            <result property="serialNumber" column="serial_number" jdbcType="INTEGER"/>
+            <result property="parentUsername" column="parent_username" jdbcType="VARCHAR"/>
+            <result property="parentNickname" column="parent_nickname" jdbcType="VARCHAR"/>
+            <result property="currentUsername" column="current_username" jdbcType="VARCHAR"/>
+            <result property="currentNickname" column="current_nickname" jdbcType="VARCHAR"/>
             <result property="content" column="content" jdbcType="VARCHAR"/>
             <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
             <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>

@@ -2,13 +2,16 @@ package learn.qzy.searchbackend.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import learn.qzy.searchbackend.constant.enums.ErrorCodeEnum;
-import learn.qzy.searchbackend.exception.ThrowUtils;
-import learn.qzy.searchbackend.util.ESClient;
-import learn.qzy.searchbackend.model.entity.ContentArticle;
-import learn.qzy.searchbackend.model.vo.ContentArticleVO;
-import learn.qzy.searchbackend.service.ContentArticleService;
 import learn.qzy.searchbackend.mapper.ContentArticleMapper;
+import learn.qzy.searchbackend.model.dto.CommentLikeDTO;
+import learn.qzy.searchbackend.model.entity.ArticleComment;
+import learn.qzy.searchbackend.model.entity.ContentArticle;
+import learn.qzy.searchbackend.model.vo.ArticleDetailVO;
+import learn.qzy.searchbackend.model.vo.ContentArticleVO;
+import learn.qzy.searchbackend.service.ArticleCommentService;
+import learn.qzy.searchbackend.service.CommentLikeService;
+import learn.qzy.searchbackend.service.ContentArticleService;
+import learn.qzy.searchbackend.util.ESClient;
 import learn.qzy.searchbackend.util.Result;
 import learn.qzy.searchbackend.util.ResultGenerator;
 import org.elasticsearch.action.search.SearchRequest;
@@ -16,19 +19,17 @@ import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.RestHighLevelClient;
 import org.elasticsearch.index.query.QueryBuilders;
-import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.elasticsearch.search.fetch.subphase.highlight.HighlightBuilder;
 import org.elasticsearch.search.suggest.SuggestBuilder;
 import org.elasticsearch.search.suggest.term.TermSuggestion;
 import org.elasticsearch.search.suggest.term.TermSuggestionBuilder;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * @author qzy
@@ -38,10 +39,35 @@ import java.util.stream.Collectors;
 @Service
 public class ContentArticleServiceImpl extends ServiceImpl<ContentArticleMapper, ContentArticle>
         implements ContentArticleService {
+
     private static final RestHighLevelClient client = ESClient.createClient();
+
+    @Autowired
+    private ArticleCommentService articleCommentService;
+    @Autowired
+    private CommentLikeService commentLikeService;
+
+
+    /**
+     * 获取搜索建议
+     *
+     * @param text 搜索词
+     * @return 搜索建议
+     */
+    @Override
+    public Result<String> getSuggestion(String text) {
+        LambdaQueryWrapper<ContentArticle> wrapper = new LambdaQueryWrapper<>();
+        wrapper.likeRight(ContentArticle::getTitle, text);
+        wrapper.last("LIMIT 10");
+        List<ContentArticle> list = this.list(wrapper);
+        List<String> result = list.stream().map(ContentArticle::getTitle).toList();
+        return ResultGenerator.genSuccessResult(result);
+    }
+
 
     /**
      * 纠正检索词 / 模糊搜索
+     *
      * @param indexName   索引库名称
      * @param suggestName 建议名称
      * @param field       字段名称
@@ -94,6 +120,7 @@ public class ContentArticleServiceImpl extends ServiceImpl<ContentArticleMapper,
 
     /**
      * 获取文章列表
+     *
      * @param title 标题
      * @return 文章列表
      */
@@ -144,17 +171,50 @@ public class ContentArticleServiceImpl extends ServiceImpl<ContentArticleMapper,
 
 
     /**
-     * 获取搜索建议
-     * @param text 搜索词
-     * @return 搜索建议
+     * 获取文章详情
+     *
+     * @param text 文章标题
+     * @return 文章详情
      */
     @Override
-    public Result<String> getSuggestion(String text) {
-        LambdaQueryWrapper<ContentArticle> wrapper = new LambdaQueryWrapper<>();
-        wrapper.likeRight(ContentArticle::getTitle, text);
-        wrapper.last("LIMIT 10");
-        List<ContentArticle> list = this.list(wrapper);
-        List<String> result = list.stream().map(ContentArticle::getTitle).toList();
+    public Result<ArticleDetailVO> getArticleDetail(String text) {
+        ArticleDetailVO result = new ArticleDetailVO();
+        List<CommentLikeDTO> dtoList = new ArrayList<>();
+
+        // 查询文章
+        LambdaQueryWrapper<ContentArticle> wrapper1 = new LambdaQueryWrapper<>();
+        wrapper1.eq(ContentArticle::getTitle, text);
+        ContentArticle article = this.getOne(wrapper1);
+
+        // 填充Result数据
+        result.setTitle(article.getTitle());
+        result.setContent(article.getContent());
+        result.setCreateTime(article.getCreateTime());
+        result.setUpdateTime(article.getUpdateTime());
+        result.setCreateBy(article.getCreateBy());
+
+        // 查询评论
+        int serialNumber = 1;
+        LambdaQueryWrapper<ArticleComment> wrapper2 = new LambdaQueryWrapper<>();
+        wrapper2.eq(ArticleComment::getArticleId, article.getId());
+        wrapper2.eq(ArticleComment::getSerialNumber, serialNumber);
+        List<ArticleComment> commentList = articleCommentService.list(wrapper2);
+        while (commentList != null && !commentList.isEmpty()) {
+            for (ArticleComment comment : commentList) {
+                // 查询评论点赞数量
+                Long likeCount = commentLikeService.getLikeCountByCommentId(comment.getId());
+                dtoList.add(new CommentLikeDTO(comment.getSerialNumber(), comment.getContent(), comment.getParentUsername(), comment.getParentNickname(),
+                        comment.getCurrentUsername(), comment.getCurrentNickname(), comment.getCreateTime(), likeCount));
+            }
+
+            serialNumber++;
+            wrapper2 = new LambdaQueryWrapper<>();
+            wrapper2.eq(ArticleComment::getArticleId, article.getId());
+            wrapper2.eq(ArticleComment::getSerialNumber, serialNumber);
+            commentList = articleCommentService.list(wrapper2);
+        }
+        result.setCommentLikeDTOList(dtoList);
+
         return ResultGenerator.genSuccessResult(result);
     }
 
