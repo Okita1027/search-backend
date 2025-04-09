@@ -15,4 +15,11 @@ import org.springframework.stereotype.Service;
 public class AdminServiceImpl extends ServiceImpl<UserMapper, Admin>
     implements AdminService {
 
+    @Override
+    public boolean login(Admin admin) {
+        String username = admin.getUsername();
+        String password = admin.getPassword();
+
+        return false;
+    }
 }

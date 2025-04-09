@@ -57,7 +57,7 @@ public class ContentArticleServiceImpl extends ServiceImpl<ContentArticleMapper,
      * @return 搜索建议
      */
     @Override
-    public Result<String> getSuggestion(String text) {
+    public Result getSuggestion(String text) {
         LambdaQueryWrapper<ContentArticle> wrapper = new LambdaQueryWrapper<>();
         wrapper.likeRight(ContentArticle::getTitle, text);
         wrapper.last("LIMIT 10");
