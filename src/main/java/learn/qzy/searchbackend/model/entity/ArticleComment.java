@@ -34,7 +34,7 @@ public class ArticleComment implements Serializable {
      * 楼层号
      */
     @TableField(value = "serial_number")
-    private Long serialNumber;
+    private Integer serialNumber;
 
     /**
      * 父级评论用户名

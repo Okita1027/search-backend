@@ -1,6 +1,6 @@
 package learn.qzy.searchbackend.service;
 
-import learn.qzy.searchbackend.model.entity.User;
+import learn.qzy.searchbackend.model.entity.Admin;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 /**
@@ -8,6 +8,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
 * @description 针对表【user】的数据库操作Service
 * @createDate 2024-12-10 13:39:33
 */
-public interface UserService extends IService<User> {
+public interface AdminService extends IService<Admin> {
 
 }

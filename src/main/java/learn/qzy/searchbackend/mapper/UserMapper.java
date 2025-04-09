@@ -1,6 +1,6 @@
 package learn.qzy.searchbackend.mapper;
 
-import learn.qzy.searchbackend.model.entity.User;
+import learn.qzy.searchbackend.model.entity.Admin;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**
@@ -9,7 +9,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 * @createDate 2024-12-10 13:39:33
 * @Entity generator.User
 */
-public interface UserMapper extends BaseMapper<User> {
+public interface UserMapper extends BaseMapper<Admin> {
 
 }
 

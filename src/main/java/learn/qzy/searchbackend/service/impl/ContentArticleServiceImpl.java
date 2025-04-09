@@ -29,7 +29,9 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author qzy
@@ -179,9 +181,11 @@ public class ContentArticleServiceImpl extends ServiceImpl<ContentArticleMapper,
     @Override
     public Result<ArticleDetailVO> getArticleDetail(String text) {
         ArticleDetailVO result = new ArticleDetailVO();
-        List<CommentLikeDTO> dtoList = new ArrayList<>();
+        Map<Integer, List<CommentLikeDTO>> dtoMap = new HashMap<>();
 
         // 查询文章
+        text = text.replace("<em>", "");
+        text = text.replace("</em>", "");
         LambdaQueryWrapper<ContentArticle> wrapper1 = new LambdaQueryWrapper<>();
         wrapper1.eq(ContentArticle::getTitle, text);
         ContentArticle article = this.getOne(wrapper1);
@@ -203,17 +207,19 @@ public class ContentArticleServiceImpl extends ServiceImpl<ContentArticleMapper,
             for (ArticleComment comment : commentList) {
                 // 查询评论点赞数量
                 Long likeCount = commentLikeService.getLikeCountByCommentId(comment.getId());
-                dtoList.add(new CommentLikeDTO(comment.getSerialNumber(), comment.getContent(), comment.getParentUsername(), comment.getParentNickname(),
+                List<CommentLikeDTO> dtoList = dtoMap.getOrDefault(comment.getSerialNumber(), new ArrayList<>());
+                dtoList.add(new CommentLikeDTO(comment.getId(), comment.getContent(), comment.getParentUsername(), comment.getParentNickname(),
                         comment.getCurrentUsername(), comment.getCurrentNickname(), comment.getCreateTime(), likeCount));
+                dtoMap.put(comment.getSerialNumber(), dtoList);
             }
-
+            // 查询下一楼层的评论
             serialNumber++;
             wrapper2 = new LambdaQueryWrapper<>();
             wrapper2.eq(ArticleComment::getArticleId, article.getId());
             wrapper2.eq(ArticleComment::getSerialNumber, serialNumber);
             commentList = articleCommentService.list(wrapper2);
         }
-        result.setCommentLikeDTOList(dtoList);
+        result.setCommentLikeDtoMap(dtoMap);
 
         return ResultGenerator.genSuccessResult(result);
     }

@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 /**
  * @author qzy
  * @create 2024/12/12 15:28 星期四
- * @title
+ * @title 普通用户接口
  */
 @RestController
 @RequestMapping("/user")

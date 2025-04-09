@@ -8,19 +8,18 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.Date;
-import lombok.Data;
+
 import lombok.Getter;
 import lombok.Setter;
 
 /**
- * 
+ * 管理员用户表
  * @TableName user
  */
 @TableName(value ="user")
 @Getter
 @Setter
-public class User implements Serializable {
+public class Admin implements Serializable {
     @Serial
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;

@@ -5,6 +5,7 @@ import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author qzy
@@ -27,6 +28,6 @@ public class ArticleDetailVO {
 
     private LocalDateTime updateTime;
 
-    private List<CommentLikeDTO> commentLikeDTOList;
+    private Map<Integer, List<CommentLikeDTO>> commentLikeDtoMap;
 
 }

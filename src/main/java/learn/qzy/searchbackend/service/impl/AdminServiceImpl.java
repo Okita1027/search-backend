@@ -1,8 +1,8 @@
 package learn.qzy.searchbackend.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import learn.qzy.searchbackend.model.entity.User;
-import learn.qzy.searchbackend.service.UserService;
+import learn.qzy.searchbackend.model.entity.Admin;
+import learn.qzy.searchbackend.service.AdminService;
 import learn.qzy.searchbackend.mapper.UserMapper;
 import org.springframework.stereotype.Service;
 
@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 * @createDate 2024-12-10 13:39:33
 */
 @Service
-public class UserServiceImpl extends ServiceImpl<UserMapper, User>
-    implements UserService {
+public class AdminServiceImpl extends ServiceImpl<UserMapper, Admin>
+    implements AdminService {
 
 }

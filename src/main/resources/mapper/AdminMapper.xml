@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="learn.qzy.searchbackend.mapper.UserMapper">
 
-    <resultMap id="BaseResultMap" type="learn.qzy.searchbackend.model.entity.User">
+    <resultMap id="BaseResultMap" type="learn.qzy.searchbackend.model.entity.Admin">
         <id property="id" column="id" jdbcType="BIGINT"/>
         <result property="username" column="username" jdbcType="VARCHAR"/>
         <result property="password" column="password" jdbcType="VARCHAR"/>

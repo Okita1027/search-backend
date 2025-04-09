@@ -18,9 +18,9 @@ import java.time.LocalDateTime;
 public class CommentLikeDTO {
 
     /**
-     * 楼层号
+     * 评论ID，方便点赞
      */
-    private Long serialNumber;
+    private Long commentId;
 
     /**
      * 评论内容
