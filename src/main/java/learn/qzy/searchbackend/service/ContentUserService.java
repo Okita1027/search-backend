@@ -1,5 +1,6 @@
 package learn.qzy.searchbackend.service;
 
+import cn.dev33.satoken.stp.SaTokenInfo;
 import learn.qzy.searchbackend.model.dto.ContentUserDTO;
 import learn.qzy.searchbackend.model.entity.ContentPicture;
 import learn.qzy.searchbackend.model.entity.ContentUser;
@@ -16,7 +17,7 @@ public interface ContentUserService extends IService<ContentUser> {
 
     Result<ContentUserVO> getUserList(String title);
 
-    Result login(ContentUser user);
+    Result<SaTokenInfo> login(ContentUser user);
 
     Result register(ContentUser user);
 

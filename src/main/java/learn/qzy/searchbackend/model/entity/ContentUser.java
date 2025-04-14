@@ -36,14 +36,34 @@ public class ContentUser extends BaseUserDTO implements Serializable {
     private String nickname;
 
     /**
+     * 性别 （0保密；1男性；2女性）
+     */
+    private Integer gender;
+
+    /**
      * 个性签名
      */
     private String profile;
 
     /**
+     * 电话号码
+     */
+    private String phone;
+
+    /**
+     * 邮箱
+     */
+    private String email;
+
+    /**
      * 头像链接
      */
     private String avatarUrl;
+
+    /**
+     * 状态(0停用；1启用)
+     */
+    private Integer status;
 
     /**
      * 用户编辑时间

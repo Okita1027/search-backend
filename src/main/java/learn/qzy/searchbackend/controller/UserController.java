@@ -1,5 +1,7 @@
 package learn.qzy.searchbackend.controller;
 
+import cn.dev33.satoken.stp.SaTokenInfo;
+import cn.dev33.satoken.stp.StpUtil;
 import jakarta.annotation.Resource;
 import learn.qzy.searchbackend.model.dto.ContentUserDTO;
 import learn.qzy.searchbackend.model.entity.ContentPicture;
@@ -28,7 +30,7 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public Result login(@RequestBody ContentUser user) {
+    public Result<SaTokenInfo> login(@RequestBody ContentUser user) {
         return userService.login(user);
     }
 

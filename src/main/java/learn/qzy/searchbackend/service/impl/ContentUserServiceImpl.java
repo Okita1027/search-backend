@@ -1,5 +1,7 @@
 package learn.qzy.searchbackend.service.impl;
 
+import cn.dev33.satoken.stp.SaTokenInfo;
+import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -37,14 +39,14 @@ public class ContentUserServiceImpl extends ServiceImpl<ContentUserMapper, Conte
     }
 
     @Override
-    public Result login(ContentUser user) {
+    public Result<SaTokenInfo> login(ContentUser user) {
         String username = user.getUsername();
         String password = user.getPassword();
         String encryptPassword = PasswordUtil.encrypt(password);
         LambdaQueryWrapper<ContentUser> wrapper = new LambdaQueryWrapper<>();
         wrapper.eq(ContentUser::getUsername, username).eq(ContentUser::getPassword, encryptPassword);
         if (this.getOne(wrapper) != null) {
-            return ResultGenerator.genSuccessResult("登陆成功");
+            return ResultGenerator.genSuccessResult(StpUtil.getTokenInfo());
         }
         return ResultGenerator.genFailResult("用户名或密码错误");
     }
@@ -64,11 +66,6 @@ public class ContentUserServiceImpl extends ServiceImpl<ContentUserMapper, Conte
     }
 
     @Override
-    public Result updateUserInfo(ContentUserDTO user) {
-        return null;
-    }
-
-    @Override
     public Result<ContentUserVO> getUserInfo(String username) {
         LambdaQueryWrapper<ContentUser> wrapper = new LambdaQueryWrapper<>();
         wrapper.eq(ContentUser::getUsername, username);
@@ -79,4 +76,17 @@ public class ContentUserServiceImpl extends ServiceImpl<ContentUserMapper, Conte
         }
         return ResultGenerator.genFailResult("用户不存在");
     }
+
+    @Override
+    public Result updateUserInfo(ContentUserDTO user) {
+        String rawPasswordEncrypt = PasswordUtil.encrypt(user.getRawPassword());
+        LambdaQueryWrapper<ContentUser> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(ContentUser::getPassword, rawPasswordEncrypt)
+                .eq(ContentUser::getUsername, user.getUsername());
+        ContentUser newUser = this.getOne(wrapper);
+        BeanUtil.copyProperties(user, newUser, "password");
+        newUser.setPassword(PasswordUtil.encrypt(user.getPassword()));
+        return this.saveOrUpdate(newUser) ? ResultGenerator.genSuccessResult() : ResultGenerator.genFailResult();
+    }
+
 }

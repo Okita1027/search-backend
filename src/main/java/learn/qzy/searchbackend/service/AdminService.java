@@ -1,5 +1,6 @@
 package learn.qzy.searchbackend.service;
 
+import cn.dev33.satoken.stp.SaTokenInfo;
 import learn.qzy.searchbackend.model.entity.Admin;
 import com.baomidou.mybatisplus.extension.service.IService;
 import learn.qzy.searchbackend.util.Result;
@@ -11,11 +12,11 @@ import learn.qzy.searchbackend.util.Result;
 */
 public interface AdminService extends IService<Admin> {
 
-    Result login(Admin admin);
+    Result<SaTokenInfo> login(Admin admin);
 
     Result logout();
 
-    Result kickOut(String username);
+    Result kickOut(SaTokenInfo token);
 
-    Result ban(String username);
+    Result updateStatus(String username, Integer status);
 }

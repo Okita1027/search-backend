@@ -4,7 +4,7 @@ package learn.qzy.searchbackend.util;
 /**
  * @author qzy
  * @create 2024/12/12 13:12 星期四
- * @title
+ * @title 结果生成工具类
  */
 public class ResultGenerator {
     private static final int DEFAULT_SUCCESS_CODE = 200;

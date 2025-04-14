@@ -14,6 +14,7 @@ import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
  */
 @JsonComponent
 public class JsonConfig {
+
     @Bean
     public ObjectMapper jacksonObjectMapper(Jackson2ObjectMapperBuilder builder) {
         ObjectMapper objectMapper = builder.createXmlMapper(false).build();
@@ -23,4 +24,5 @@ public class JsonConfig {
         objectMapper.registerModule(module);
         return objectMapper;
     }
+
 }
