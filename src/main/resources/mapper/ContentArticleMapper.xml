@@ -16,7 +16,7 @@
     </resultMap>
 
     <sql id="Base_Column_List">
-        id ,title,content,
+        id,title,content,
         create_time,update_time,create_by,update_by,is_deleted
     </sql>
 </mapper>
