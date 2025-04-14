@@ -4,10 +4,7 @@ import jakarta.annotation.Resource;
 import learn.qzy.searchbackend.model.entity.Admin;
 import learn.qzy.searchbackend.service.AdminService;
 import learn.qzy.searchbackend.util.Result;
-import learn.qzy.searchbackend.util.ResultGenerator;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 /**
  * @author qzy
@@ -23,10 +20,31 @@ public class AdminController {
 
     @PostMapping("/login")
     public Result login(@RequestBody Admin admin) {
-        if (adminService.login(admin)) {
-            return ResultGenerator.genSuccessResult("登陆成功");
-        } else {
-            return ResultGenerator.genFailResult("用户名或密码错误");
-        }
+        return adminService.login(admin);
+    }
+
+    @PostMapping("/logout")
+    public Result logout() {
+        return adminService.logout();
+    }
+
+    /**
+     * 踢出在线用户
+     * @param username 普通用户名
+     * @return 踢出结果
+     */
+    @PostMapping("/kickout")
+    public Result kickout(@RequestParam String username) {
+        return adminService.kickOut(username);
+    }
+
+    /**
+     * 封禁用户状态
+     * @param username 普通用户名
+     * @return 封禁结果
+     */
+    @PostMapping("/ban")
+    public Result ban(@RequestParam String username) {
+        return adminService.ban(username);
     }
 }

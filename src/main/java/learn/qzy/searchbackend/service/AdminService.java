@@ -2,6 +2,7 @@ package learn.qzy.searchbackend.service;
 
 import learn.qzy.searchbackend.model.entity.Admin;
 import com.baomidou.mybatisplus.extension.service.IService;
+import learn.qzy.searchbackend.util.Result;
 
 /**
 * @author qzy
@@ -10,5 +11,11 @@ import com.baomidou.mybatisplus.extension.service.IService;
 */
 public interface AdminService extends IService<Admin> {
 
-    boolean login(Admin admin);
+    Result login(Admin admin);
+
+    Result logout();
+
+    Result kickOut(String username);
+
+    Result ban(String username);
 }

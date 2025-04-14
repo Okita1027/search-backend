@@ -8,9 +8,8 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.Date;
 
-import lombok.Data;
+import learn.qzy.searchbackend.model.dto.BaseUserDTO;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -20,10 +19,11 @@ import lombok.Setter;
 @TableName(value = "content_user")
 @Getter
 @Setter
-public class ContentUser implements Serializable {
+public class ContentUser extends BaseUserDTO implements Serializable {
     @Serial
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;
+
     /**
      * id
      */
@@ -31,17 +31,7 @@ public class ContentUser implements Serializable {
     private Long id;
 
     /**
-     * 用户名
-     */
-    private String username;
-
-    /**
-     * 密码
-     */
-    private String password;
-
-    /**
-     * 标题
+     * 昵称
      */
     private String nickname;
 

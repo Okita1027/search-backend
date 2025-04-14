@@ -9,6 +9,7 @@ import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
+import learn.qzy.searchbackend.model.dto.BaseUserDTO;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -19,7 +20,7 @@ import lombok.Setter;
 @TableName(value ="user")
 @Getter
 @Setter
-public class Admin implements Serializable {
+public class Admin extends BaseUserDTO implements Serializable {
     @Serial
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;
@@ -29,16 +30,6 @@ public class Admin implements Serializable {
      */
     @TableId(type = IdType.AUTO)
     private Long id;
-
-    /**
-     * 用户名
-     */
-    private String username;
-
-    /**
-     * 密码
-     */
-    private String password;
 
     /**
      * 创建时间

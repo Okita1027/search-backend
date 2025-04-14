@@ -3,7 +3,7 @@ package learn.qzy.searchbackend.constant.enums;
 /**
  * @author qzy
  * @create 2024/12/10 13:51 星期二
- * @title
+ * @title 系统错误码
  */
 public enum ErrorCodeEnum {
 
