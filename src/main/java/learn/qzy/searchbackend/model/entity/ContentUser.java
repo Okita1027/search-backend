@@ -1,9 +1,6 @@
 package learn.qzy.searchbackend.model.entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.*;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -68,6 +65,7 @@ public class ContentUser extends BaseUserDTO implements Serializable {
     /**
      * 用户编辑时间
      */
+    @TableField(fill = FieldFill.UPDATE)
     private LocalDateTime editTime;
 
     /**

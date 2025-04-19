@@ -1,5 +1,6 @@
 package learn.qzy.searchbackend.config;
 
+import cn.dev33.satoken.stp.StpUtil;
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.reflection.MetaObject;
@@ -28,6 +29,9 @@ public class MyMetaObjectHandler implements MetaObjectHandler {
         logger.info("公共字段自动填充【insert】...");
         metaObject.setValue("createTime", LocalDateTime.now());
         metaObject.setValue("updateTime", LocalDateTime.now());
+        metaObject.setValue("isDeleted", 0);
+        metaObject.setValue("createBy", StpUtil.getLoginIdAsLong());
+        metaObject.setValue("updateBy", StpUtil.getLoginIdAsLong());
     }
 
     /**
@@ -36,6 +40,9 @@ public class MyMetaObjectHandler implements MetaObjectHandler {
     @Override
     public void updateFill(MetaObject metaObject) {
         logger.info("公共字段自动填充【update】...");
+        metaObject.setValue("editTime", LocalDateTime.now());
         metaObject.setValue("updateTime", LocalDateTime.now());
+        metaObject.setValue("createBy", StpUtil.getLoginIdAsLong());
+        metaObject.setValue("updateBy", StpUtil.getLoginIdAsLong());
     }
 }

@@ -1,5 +1,6 @@
 package learn.qzy.searchbackend.config;
 
+import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 /**
@@ -8,6 +9,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
  * @time 2025年4月13日 12:50 星期日
  * @title SaToken配置类
  */
+@Configuration
 public class SaTokenConfig implements WebMvcConfigurer {
 
 }

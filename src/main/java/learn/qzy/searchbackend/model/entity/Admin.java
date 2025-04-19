@@ -15,9 +15,10 @@ import lombok.Setter;
 
 /**
  * 管理员用户表
+ * @author Administrator
  * @TableName user
  */
-@TableName(value ="user")
+@TableName(value ="admin")
 @Getter
 @Setter
 public class Admin extends BaseUserDTO implements Serializable {

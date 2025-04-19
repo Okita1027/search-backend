@@ -3,6 +3,7 @@ package learn.qzy.searchbackend.service.impl;
 import cn.dev33.satoken.stp.SaTokenInfo;
 import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.lang.UUID;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import learn.qzy.searchbackend.model.dto.ContentUserDTO;
@@ -42,11 +43,12 @@ public class ContentUserServiceImpl extends ServiceImpl<ContentUserMapper, Conte
     public Result<SaTokenInfo> login(ContentUser user) {
         String username = user.getUsername();
         String password = user.getPassword();
-        String encryptPassword = PasswordUtil.encrypt(password);
-        LambdaQueryWrapper<ContentUser> wrapper = new LambdaQueryWrapper<>();
-        wrapper.eq(ContentUser::getUsername, username).eq(ContentUser::getPassword, encryptPassword);
-        if (this.getOne(wrapper) != null) {
-            return ResultGenerator.genSuccessResult(StpUtil.getTokenInfo());
+        ContentUser realUser = this.getOne(new LambdaQueryWrapper<ContentUser>().eq(ContentUser::getUsername, username));
+        if (realUser != null) {
+            if (PasswordUtil.matches(password, realUser.getPassword())) {
+                StpUtil.login(realUser.getId());
+                return ResultGenerator.genSuccessResult(StpUtil.getTokenInfo());
+            }
         }
         return ResultGenerator.genFailResult("用户名或密码错误");
     }
@@ -59,6 +61,7 @@ public class ContentUserServiceImpl extends ServiceImpl<ContentUserMapper, Conte
             return ResultGenerator.genFailResult("用户名已存在");
         }
         user.setPassword(PasswordUtil.encrypt(user.getPassword()));
+        user.setNickname("用户" + UUID.fastUUID());
         if (this.save(user)) {
             return ResultGenerator.genSuccessResult("注册成功");
         }

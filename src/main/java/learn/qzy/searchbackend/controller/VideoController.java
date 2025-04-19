@@ -24,18 +24,4 @@ public class VideoController {
     public Result<ContentVideoVO> video(@RequestParam("text") String fileName) {
         return videoService.getVideoList(fileName);
     }
-
-
-    @PostMapping("/upload")
-    public Result<String> uploadFile(@RequestParam("file") MultipartFile file) {
-        /*try {
-            // 调用服务层方法处理文件上传
-            fileService.uploadFile(file);
-            return Result.success("文件上传成功");
-        } catch (Exception e) {
-            return Result.error("文件上传失败: " + e.getMessage());
-        }*/
-        return null;
-    }
-
 }

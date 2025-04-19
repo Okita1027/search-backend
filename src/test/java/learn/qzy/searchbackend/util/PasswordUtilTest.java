@@ -14,13 +14,13 @@ public class PasswordUtilTest {
 
     @Test
     void encryptTest() {
-        String password = "123456";
+        String password = "root";
         String encryptPassword = PasswordUtil.encrypt(password);
         System.out.println(encryptPassword);
     }
 
     public static void main(String[] args) {
-        String password = "123456";
+        String password = "jh";
         String encryptPassword = PasswordUtil.encrypt(password);
         System.out.println(encryptPassword);
         boolean matches = PasswordUtil.matches("123456", encryptPassword);

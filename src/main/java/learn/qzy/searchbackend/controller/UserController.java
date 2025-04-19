@@ -24,11 +24,21 @@ public class UserController {
     @Resource
     private ContentUserService userService;
 
+    /**
+     * 普通用户注册
+     * @param user 用户名、密码
+     * @return 注册结果
+     */
     @PostMapping("/register")
     public Result register(@RequestBody ContentUser user) {
         return userService.register(user);
     }
 
+    /**
+     * 普通用户登陆
+     * @param user 用户名、密码
+     * @return （搭载了SaToken的）登陆结果
+     */
     @PostMapping("/login")
     public Result<SaTokenInfo> login(@RequestBody ContentUser user) {
         return userService.login(user);

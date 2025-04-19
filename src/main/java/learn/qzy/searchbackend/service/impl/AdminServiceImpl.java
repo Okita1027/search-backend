@@ -2,14 +2,14 @@ package learn.qzy.searchbackend.service.impl;
 
 import cn.dev33.satoken.stp.SaTokenInfo;
 import cn.dev33.satoken.stp.StpUtil;
-import cn.dev33.satoken.util.SaResult;
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import learn.qzy.searchbackend.mapper.UserMapper;
 import learn.qzy.searchbackend.model.entity.Admin;
 import learn.qzy.searchbackend.model.entity.ContentUser;
 import learn.qzy.searchbackend.service.AdminService;
-import learn.qzy.searchbackend.mapper.UserMapper;
 import learn.qzy.searchbackend.service.ContentUserService;
 import learn.qzy.searchbackend.util.PasswordUtil;
 import learn.qzy.searchbackend.util.Result;
@@ -33,13 +33,14 @@ public class AdminServiceImpl extends ServiceImpl<UserMapper, Admin>
     public Result<SaTokenInfo> login(Admin admin) {
         String username = admin.getUsername();
         String password = admin.getPassword();
-        String encryptPassword = PasswordUtil.encrypt(password);
         LambdaQueryWrapper<Admin> wrapper = new LambdaQueryWrapper<>();
-        wrapper.eq(Admin::getUsername, username).eq(Admin::getPassword, encryptPassword);
-        admin = this.getOne(wrapper);
-        if (admin != null) {
-            StpUtil.login(admin.getId());
-            return ResultGenerator.genSuccessResult(StpUtil.getTokenInfo());
+        wrapper.eq(Admin::getUsername, username);
+        Admin realAdmin = this.getOne(wrapper);
+        if (realAdmin != null) {
+            if (PasswordUtil.matches(password, realAdmin.getPassword())) {
+                StpUtil.login(realAdmin.getId());
+                return ResultGenerator.genSuccessResult(StpUtil.getTokenInfo());
+            }
         }
         return ResultGenerator.genFailResult("用户名或密码错误");
     }

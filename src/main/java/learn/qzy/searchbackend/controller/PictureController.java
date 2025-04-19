@@ -19,6 +19,11 @@ public class PictureController {
     @Resource
     private ContentPictureService pictureService;
 
+    /**
+     * 获取图片列表
+     * @param text 搜索关键词
+     * @return 图片的URL
+     */
     @GetMapping
     public Result<ContentPictureVO> getPictureList(@RequestParam String text) {
         return pictureService.getPictureList(text);

@@ -2,6 +2,7 @@ package learn.qzy.searchbackend.controller;
 
 import cn.dev33.satoken.annotation.SaCheckRole;
 import cn.dev33.satoken.stp.SaTokenInfo;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import jakarta.annotation.Resource;
 import learn.qzy.searchbackend.model.entity.Admin;
 import learn.qzy.searchbackend.service.AdminService;
@@ -20,23 +21,31 @@ public class AdminController {
     @Resource
     private AdminService adminService;
 
+    /**
+     * 管理员登陆
+     * @param admin 管理员账号、密码
+     * @return （搭载了SaToken的）登陆结果
+     */
     @PostMapping("/login")
     public Result<SaTokenInfo> login(@RequestBody Admin admin) {
         return adminService.login(admin);
     }
 
+    /**
+     * 管理员登出
+     * @return
+     */
     @PostMapping("/logout")
     public Result logout() {
         return adminService.logout();
     }
 
     /**
-     * 踢出在线用户
-     * @param token 登陆token信息
+     * 踢出在线的用户
+     * @param token 登陆的token信息
      * @return 踢出结果
      */
     @PostMapping("/kickout")
-    @SaCheckRole("admin")
     public Result kickOut(@RequestParam SaTokenInfo token) {
         return adminService.kickOut(token);
     }
@@ -47,7 +56,6 @@ public class AdminController {
      * @return 启用/封禁结果
      */
     @PutMapping("/status")
-    @SaCheckRole("admin")
     public Result status(@RequestParam String username, @RequestParam Integer status) {
         return adminService.updateStatus(username, status);
     }
