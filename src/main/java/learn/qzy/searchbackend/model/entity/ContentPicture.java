@@ -30,12 +30,17 @@ public class ContentPicture implements Serializable {
     /**
      * 标题
      */
-    private String title;
+    private String fileName;
 
     /**
      * 图片链接
      */
-    private String pictureUrl;
+    private String filePath;
+
+    /**
+     * 来源（0网络；1本地）
+     */
+    private Integer source;
 
     /**
      * 创建时间

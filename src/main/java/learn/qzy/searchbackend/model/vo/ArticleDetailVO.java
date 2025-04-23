@@ -28,6 +28,9 @@ public class ArticleDetailVO {
 
     private LocalDateTime updateTime;
 
+    /**
+     * 评论区
+     */
     private Map<Integer, List<CommentLikeDTO>> commentLikeDtoMap;
 
 }

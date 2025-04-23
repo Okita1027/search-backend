@@ -1,19 +1,3 @@
-/*
- Navicat Premium Dump SQL
-
- Source Server         : 本地的MySQL
- Source Server Type    : MySQL
- Source Server Version : 80400 (8.4.0)
- Source Host           : localhost:3306
- Source Schema         : project_search
-
- Target Server Type    : MySQL
- Target Server Version : 80400 (8.4.0)
- File Encoding         : 65001
-
- Date: 06/04/2025 18:00:31
-*/
-
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
 

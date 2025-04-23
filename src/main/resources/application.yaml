@@ -1,3 +1,12 @@
+server:
+#  address: 0.0.0.0
+  port: 8081
+#  servlet:
+#    context-path: /api
+#    session:
+#      cookie:
+#        max-age: 2592000
+
 spring:
   application:
     name: search-backend
@@ -21,23 +30,21 @@ spring:
       password: 123456
       port: 6379
       database: 0
+      timeout: 10s
+      lettuce:
+        pool:
+          max-wait: -1ms
+          max-active: 8
+          max-idle: 8
+          min-idle: 0
 
-# 限制文件上传大小
+  # 限制文件上传大小
   servlet:
     multipart:
       max-file-size: 200MB
       max-request-size: 200MB
       file-size-threshold: 0B
       resolve-lazily: false
-
-server:
-#  address: 0.0.0.0
-  port: 8081
-#  servlet:
-#    context-path: /api
-#    session:
-#      cookie:
-#        max-age: 2592000
 
 
 mybatis-plus:

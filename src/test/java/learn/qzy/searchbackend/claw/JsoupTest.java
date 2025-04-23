@@ -38,8 +38,8 @@ public class JsoupTest {
             String imageUrl = imageElement.attr("src");
             System.out.println(imageUrl);
             ContentPicture picture = new ContentPicture();
-            picture.setTitle("风景");
-            picture.setPictureUrl(imageUrl);
+            picture.setFileName("风景");
+            picture.setFilePath(imageUrl);
 //            pictureService.deleteExistsPicture("风景");
             pictureService.save(picture);
         }

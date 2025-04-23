@@ -1,13 +1,11 @@
 package learn.qzy.searchbackend.controller;
 
+import cn.dev33.satoken.annotation.SaCheckLogin;
 import cn.dev33.satoken.stp.SaTokenInfo;
-import cn.dev33.satoken.stp.StpUtil;
 import jakarta.annotation.Resource;
 import learn.qzy.searchbackend.model.dto.ContentUserDTO;
-import learn.qzy.searchbackend.model.entity.ContentPicture;
 import learn.qzy.searchbackend.model.entity.ContentUser;
 import learn.qzy.searchbackend.model.vo.ContentUserVO;
-import learn.qzy.searchbackend.service.ContentPictureService;
 import learn.qzy.searchbackend.service.ContentUserService;
 import learn.qzy.searchbackend.util.Result;
 import org.springframework.web.bind.annotation.*;
@@ -44,6 +42,12 @@ public class UserController {
         return userService.login(user);
     }
 
+    @SaCheckLogin
+    @PostMapping("/logout")
+    public Result logout() {
+        return userService.logout();
+    }
+
     /**
      * 获取用户列表
      * @param text 用户名
@@ -66,12 +70,27 @@ public class UserController {
 
     /**
      * 更新用户信息
-     * @param user 用户信息
+     * @param user 用户信息（DTO类增加了一个rawPassword用于匹配用户是否正确输入了原来的密码）
      * @return 更新结果
      */
+    @SaCheckLogin
     @PutMapping("/info")
     public Result updateUserInfo(@RequestBody ContentUserDTO user) {
         return userService.updateUserInfo(user);
     }
+
+
+    /**
+     * 给评论点赞
+     * @param commentId 评论ID
+     * @return 点赞结果
+     */
+    @SaCheckLogin
+    @PostMapping("/favor")
+    public Result favor(@RequestParam Long commentId) {
+        return userService.favorComment(commentId);
+    }
+
+
 
 }

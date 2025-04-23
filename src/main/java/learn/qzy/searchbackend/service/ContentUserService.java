@@ -2,7 +2,6 @@ package learn.qzy.searchbackend.service;
 
 import cn.dev33.satoken.stp.SaTokenInfo;
 import learn.qzy.searchbackend.model.dto.ContentUserDTO;
-import learn.qzy.searchbackend.model.entity.ContentPicture;
 import learn.qzy.searchbackend.model.entity.ContentUser;
 import com.baomidou.mybatisplus.extension.service.IService;
 import learn.qzy.searchbackend.model.vo.ContentUserVO;
@@ -24,4 +23,13 @@ public interface ContentUserService extends IService<ContentUser> {
     Result updateUserInfo(ContentUserDTO user);
 
     Result<ContentUserVO> getUserInfo(String username);
+
+    Result logout();
+
+    /**
+     * 点赞评论
+     * @param commentId 评论的ID
+     * @return 点赞结果
+     */
+    Result favorComment(Long commentId);
 }

@@ -14,12 +14,12 @@ import java.util.List;
 public class ContentPictureTest {
     @Resource
     private ContentPictureService pictureService;
-    @Test
+/*    @Test
     void test01() {
         LambdaQueryWrapper<ContentPicture> wrapper = new LambdaQueryWrapper<>();
-        wrapper.eq(ContentPicture::getTitle, "风景");
+        wrapper.eq(ContentPicture::getFileName, "风景");
         List<ContentPicture> pictureList = pictureService.list(wrapper);
         List<ContentPictureVO> pictureVOList = BeanUtil.copyToList(pictureList, ContentPictureVO.class);
         System.out.println("pictureVOList = " + pictureVOList);
-    }
+    }*/
 }

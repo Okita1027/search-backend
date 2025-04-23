@@ -7,5 +7,21 @@ package learn.qzy.searchbackend.constant.enums;
  * @title 业务失败错误码
  */
 public enum FailureCodeEnum {
+    FILE_UPLOAD_FAILURE(40700, "文件上传异常");
 
+    private final int code;
+    private final String message;
+
+    FailureCodeEnum(int code, String message) {
+        this.code = code;
+        this.message = message;
+    }
+
+    public int getCode() {
+        return code;
+    }
+
+    public String getMessage() {
+        return message;
+    }
 }

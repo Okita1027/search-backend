@@ -1,5 +1,6 @@
 package learn.qzy.searchbackend.controller;
 
+import cn.dev33.satoken.annotation.SaCheckLogin;
 import cn.dev33.satoken.annotation.SaCheckRole;
 import cn.dev33.satoken.stp.SaTokenInfo;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
@@ -35,6 +36,7 @@ public class AdminController {
      * 管理员登出
      * @return
      */
+    @SaCheckLogin
     @PostMapping("/logout")
     public Result logout() {
         return adminService.logout();
@@ -45,6 +47,7 @@ public class AdminController {
      * @param token 登陆的token信息
      * @return 踢出结果
      */
+    @SaCheckLogin
     @PostMapping("/kickout")
     public Result kickOut(@RequestParam SaTokenInfo token) {
         return adminService.kickOut(token);
@@ -55,6 +58,7 @@ public class AdminController {
      * @param username 普通用户的用户名
      * @return 启用/封禁结果
      */
+    @SaCheckLogin
     @PutMapping("/status")
     public Result status(@RequestParam String username, @RequestParam Integer status) {
         return adminService.updateStatus(username, status);

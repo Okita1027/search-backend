@@ -4,21 +4,26 @@ import cn.dev33.satoken.stp.SaTokenInfo;
 import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.lang.UUID;
+import cn.hutool.core.util.StrUtil;
+import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.extension.conditions.update.UpdateChainWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import learn.qzy.searchbackend.mapper.ContentUserMapper;
 import learn.qzy.searchbackend.model.dto.ContentUserDTO;
-import learn.qzy.searchbackend.model.entity.Admin;
-import learn.qzy.searchbackend.model.entity.ContentPicture;
+import learn.qzy.searchbackend.model.entity.CommentLike;
 import learn.qzy.searchbackend.model.entity.ContentUser;
 import learn.qzy.searchbackend.model.vo.ContentUserVO;
+import learn.qzy.searchbackend.service.CommentLikeService;
 import learn.qzy.searchbackend.service.ContentUserService;
-import learn.qzy.searchbackend.mapper.ContentUserMapper;
 import learn.qzy.searchbackend.util.PasswordUtil;
 import learn.qzy.searchbackend.util.Result;
 import learn.qzy.searchbackend.util.ResultGenerator;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -29,6 +34,9 @@ import java.util.List;
 @Service
 public class ContentUserServiceImpl extends ServiceImpl<ContentUserMapper, ContentUser>
         implements ContentUserService {
+
+    @Autowired
+    private CommentLikeService commentLikeService;
 
     @Override
     public Result<ContentUserVO> getUserList(String title) {
@@ -73,7 +81,7 @@ public class ContentUserServiceImpl extends ServiceImpl<ContentUserMapper, Conte
         LambdaQueryWrapper<ContentUser> wrapper = new LambdaQueryWrapper<>();
         wrapper.eq(ContentUser::getUsername, username);
         ContentUser user = this.getOne(wrapper);
-        if (user!= null) {
+        if (user != null) {
             ContentUserVO userVO = BeanUtil.copyProperties(user, ContentUserVO.class);
             return ResultGenerator.genSuccessResult(userVO);
         }
@@ -81,15 +89,61 @@ public class ContentUserServiceImpl extends ServiceImpl<ContentUserMapper, Conte
     }
 
     @Override
+    public Result logout() {
+        StpUtil.logout();
+        return ResultGenerator.genSuccessResult("登出成功");
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public Result favorComment(Long commentId) {
+        long userId = StpUtil.getLoginIdAsLong();
+        ContentUser user = this.getById(userId);
+        List<Long> favorCommentList = JSONUtil.toList(user.getFavorComment(), Long.class);
+        // 取消点赞
+        if (favorCommentList.contains(commentId)) {
+            favorCommentList.remove(commentId);
+            user.setFavorComment(JSONUtil.toJsonStr(favorCommentList));
+            this.updateById(user);
+            commentLikeService.update().setSql("like_count = like_count - 1").eq("comment_id", commentId).update();
+            return ResultGenerator.genFailResult("已取消点赞");
+        }
+        // 点赞
+        favorCommentList.add(commentId);
+        user.setFavorComment(JSONUtil.toJsonStr(favorCommentList));
+        this.updateById(user);
+        commentLikeService.update().setSql("like_count = like_count + 1").eq("comment_id", commentId).update();
+        return ResultGenerator.genSuccessResult("已点赞");
+    }
+
+    @Override
     public Result updateUserInfo(ContentUserDTO user) {
-        String rawPasswordEncrypt = PasswordUtil.encrypt(user.getRawPassword());
+        if (user.getPassword().equals(user.getRawPassword())) {
+            return ResultGenerator.genFailResult("新密码不能与旧密码相同");
+        }
         LambdaQueryWrapper<ContentUser> wrapper = new LambdaQueryWrapper<>();
-        wrapper.eq(ContentUser::getPassword, rawPasswordEncrypt)
-                .eq(ContentUser::getUsername, user.getUsername());
-        ContentUser newUser = this.getOne(wrapper);
-        BeanUtil.copyProperties(user, newUser, "password");
-        newUser.setPassword(PasswordUtil.encrypt(user.getPassword()));
-        return this.saveOrUpdate(newUser) ? ResultGenerator.genSuccessResult() : ResultGenerator.genFailResult();
+        wrapper.eq(ContentUser::getUsername, user.getUsername());
+        ContentUser realUser = this.getOne(wrapper);
+        if (realUser != null) {
+            // 改密码
+            if (StrUtil.isNotEmpty(user.getPassword()) && StrUtil.isNotEmpty(user.getRawPassword())
+                    && PasswordUtil.matches(user.getRawPassword(), realUser.getPassword())) {
+                realUser.setPassword(PasswordUtil.encrypt(user.getPassword()));
+            }
+            // 改普通信息
+            realUser.setGender(user.getGender());
+            realUser.setNickname(user.getNickname());
+            realUser.setEmail(user.getEmail());
+            realUser.setPhone(user.getPhone());
+            realUser.setProfile(user.getProfile());
+            realUser.setAvatarUrl(user.getAvatarUrl());
+            realUser.setUpdateTime(LocalDateTime.now());
+            if (this.updateById(realUser)) {
+                return ResultGenerator.genSuccessResult("更新成功");
+            }
+        }
+
+        return ResultGenerator.genFailResult("更新失败");
     }
 
 }

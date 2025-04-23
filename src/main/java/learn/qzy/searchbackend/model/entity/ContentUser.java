@@ -1,11 +1,13 @@
 package learn.qzy.searchbackend.model.entity;
 
+import cn.hutool.json.JSON;
 import com.baomidou.mybatisplus.annotation.*;
 
 import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
+import com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler;
 import learn.qzy.searchbackend.model.dto.BaseUserDTO;
 import lombok.Getter;
 import lombok.Setter;
@@ -56,6 +58,12 @@ public class ContentUser extends BaseUserDTO implements Serializable {
      * 头像链接
      */
     private String avatarUrl;
+
+    /**
+     * 点赞过的评论ID
+     */
+    @TableField(typeHandler = JacksonTypeHandler.class)
+    private String favorComment;
 
     /**
      * 状态(0停用；1启用)

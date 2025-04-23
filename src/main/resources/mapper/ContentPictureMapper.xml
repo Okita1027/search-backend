@@ -6,8 +6,9 @@
 
     <resultMap id="BaseResultMap" type="learn.qzy.searchbackend.model.entity.ContentPicture">
         <id property="id" column="id" jdbcType="BIGINT"/>
-        <result property="title" column="title" jdbcType="VARCHAR"/>
-        <result property="pictureUrl" column="picture_url" jdbcType="VARCHAR"/>
+        <result property="fileName" column="file_name" jdbcType="VARCHAR"/>
+        <result property="filePath" column="file_path" jdbcType="VARCHAR"/>
+        <result property="source" column="source" jdbcType="TINYINT"/>
         <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
         <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
         <result property="createBy" column="create_by" jdbcType="VARCHAR"/>
@@ -16,7 +17,7 @@
     </resultMap>
 
     <sql id="Base_Column_List">
-        id,title,picture_url,create_by,update_by,
+        id,file_name,file_path,source,create_by,update_by,
         create_time,update_time,is_deleted
     </sql>
 </mapper>

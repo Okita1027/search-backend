@@ -46,7 +46,7 @@ public class ContentPictureServiceImpl extends ServiceImpl<ContentPictureMapper,
     @Override
     public boolean isExistsPicture(String title) {
         LambdaQueryWrapper<ContentPicture> wrapper = new LambdaQueryWrapper<>();
-        wrapper.eq(ContentPicture::getTitle, title);
+        wrapper.eq(ContentPicture::getFileName, title);
         long exists = this.count(wrapper);
         return exists > 0;
     }
@@ -54,7 +54,7 @@ public class ContentPictureServiceImpl extends ServiceImpl<ContentPictureMapper,
     @Override
     public void deleteExistsPicture(String title) {
         LambdaQueryWrapper<ContentPicture> wrapper = new LambdaQueryWrapper<>();
-        wrapper.eq(ContentPicture::getTitle, title);
+        wrapper.eq(ContentPicture::getFileName, title);
         long exists = this.count(wrapper);
         if (exists > 0) {
             this.remove(wrapper);
@@ -82,15 +82,15 @@ public class ContentPictureServiceImpl extends ServiceImpl<ContentPictureMapper,
         }
         // 2.从MySQL查询是否存在该关键字的图片
         LambdaQueryWrapper<ContentPicture> wrapper = new LambdaQueryWrapper<>();
-        wrapper.eq(ContentPicture::getTitle, title);
+        wrapper.eq(ContentPicture::getFileName, title);
         List<ContentPicture> pictureList = this.list(wrapper);
         // 写入Redis缓存、返回图片地址列表
         if (!pictureList.isEmpty()) {
             ArrayList<ContentPictureVO> pictureVOList = new ArrayList<>();
             for (ContentPicture picture : pictureList) {
-                redisTemplate.opsForList().rightPush(title, picture.getPictureUrl());
+                redisTemplate.opsForList().rightPush(title, picture.getFilePath());
                 redisTemplate.expire(title, EXPIRE_TIME_ONE_HOUR, TimeUnit.SECONDS);
-                pictureVOList.add(new ContentPictureVO(picture.getPictureUrl()));
+                pictureVOList.add(new ContentPictureVO(picture.getFilePath()));
             }
             return ResultGenerator.genSuccessResult(pictureVOList);
         }
@@ -113,8 +113,8 @@ public class ContentPictureServiceImpl extends ServiceImpl<ContentPictureMapper,
             String imageUrl = imageElement.attr("src");
             if (!imageUrl.startsWith("data:image") && !imageUrl.endsWith("h=32")) {
                 ContentPicture picture = new ContentPicture();
-                picture.setTitle(title);
-                picture.setPictureUrl(imageUrl);
+                picture.setFileName(title);
+                picture.setFilePath(imageUrl);
                 this.save(picture);
                 redisTemplate.opsForList().rightPush(title, imageUrl);
                 pictureVOList.add(new ContentPictureVO(imageUrl));
@@ -144,7 +144,7 @@ public class ContentPictureServiceImpl extends ServiceImpl<ContentPictureMapper,
     public Result<ContentPicture> getPictureList(String title) {
         // 1.查询数据库是否存在图片
         LambdaQueryWrapper<ContentPicture> wrapper = new LambdaQueryWrapper<>();
-        wrapper.eq(ContentPicture::getTitle, title);
+        wrapper.eq(ContentPicture::getFileName, title);
         List<ContentPicture> list = this.list(wrapper);
         if (!list.isEmpty()) {
             return ResultGenerator.genSuccessResult(list);
@@ -163,8 +163,8 @@ public class ContentPictureServiceImpl extends ServiceImpl<ContentPictureMapper,
             String imageUrl = imageElement.attr("src");
             if (!imageUrl.startsWith("data:image") && !imageUrl.endsWith("h=32")) {
                 ContentPicture picture = new ContentPicture();
-                picture.setTitle(title);
-                picture.setPictureUrl(imageUrl);
+                picture.setFileName(title);
+                picture.setFilePath(imageUrl);
                 this.save(picture);
             }
         }
