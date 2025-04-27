@@ -92,5 +92,20 @@ public class UserController {
     }
 
 
+    /**
+     * 发布评论
+     * @param articleTitle 文章标题
+     * @param commentId 评论ID（如果是回复其它评论，则不为null）
+     * @param commentContent 评论内容
+     * @return 评论结果
+     */
+    @SaCheckLogin
+    @PostMapping("/comment")
+    public Result comment(@RequestParam String articleTitle,
+                          @RequestParam(required = false) Long commentId,
+                          @RequestParam String commentContent) {
+        return userService.comment(articleTitle, commentId, commentContent);
+    }
+
 
 }

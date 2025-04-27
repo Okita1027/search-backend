@@ -32,4 +32,13 @@ public interface ContentUserService extends IService<ContentUser> {
      * @return 点赞结果
      */
     Result favorComment(Long commentId);
+
+    /**
+     * 评论
+     * @param articleTitle 文章标题
+     * @param commentId 评论的ID
+     * @param commentContent 评论内容
+     * @return 评论结果
+     */
+    Result comment(String articleTitle, Long commentId, String commentContent);
 }

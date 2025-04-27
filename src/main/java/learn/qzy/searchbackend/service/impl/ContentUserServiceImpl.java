@@ -11,10 +11,14 @@ import com.baomidou.mybatisplus.extension.conditions.update.UpdateChainWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import learn.qzy.searchbackend.mapper.ContentUserMapper;
 import learn.qzy.searchbackend.model.dto.ContentUserDTO;
+import learn.qzy.searchbackend.model.entity.ArticleComment;
 import learn.qzy.searchbackend.model.entity.CommentLike;
+import learn.qzy.searchbackend.model.entity.ContentArticle;
 import learn.qzy.searchbackend.model.entity.ContentUser;
 import learn.qzy.searchbackend.model.vo.ContentUserVO;
+import learn.qzy.searchbackend.service.ArticleCommentService;
 import learn.qzy.searchbackend.service.CommentLikeService;
+import learn.qzy.searchbackend.service.ContentArticleService;
 import learn.qzy.searchbackend.service.ContentUserService;
 import learn.qzy.searchbackend.util.PasswordUtil;
 import learn.qzy.searchbackend.util.Result;
@@ -37,6 +41,10 @@ public class ContentUserServiceImpl extends ServiceImpl<ContentUserMapper, Conte
 
     @Autowired
     private CommentLikeService commentLikeService;
+    @Autowired
+    private ArticleCommentService articleCommentService;
+    @Autowired
+    private ContentArticleService articleService;
 
     @Override
     public Result<ContentUserVO> getUserList(String title) {
@@ -114,6 +122,29 @@ public class ContentUserServiceImpl extends ServiceImpl<ContentUserMapper, Conte
         this.updateById(user);
         commentLikeService.update().setSql("like_count = like_count + 1").eq("comment_id", commentId).update();
         return ResultGenerator.genSuccessResult("已点赞");
+    }
+
+    @Override
+    public Result comment(String articleTitle, Long commentId, String commentContent) {
+        LambdaQueryWrapper<ContentArticle> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(ContentArticle::getTitle, articleTitle);
+        Long articleId = articleService.getOne(wrapper).getId();
+        ArticleComment articleComment = new ArticleComment();
+        articleComment.setContent(commentContent);
+        articleComment.setArticleId(articleId);
+
+        long userId = StpUtil.getLoginIdAsLong();
+        ContentUser currentUser = this.getById(userId);
+        articleComment.setCurrentUsername(currentUser.getUsername());
+        articleComment.setCurrentNickname(currentUser.getNickname());
+
+        if (commentId != null) {
+            ArticleComment parentComment = articleCommentService.getById(commentId);
+            articleComment.setSerialNumber(parentComment.getSerialNumber());
+            articleComment.setParentUsername(parentComment.getCurrentUsername());
+            articleComment.setParentNickname(parentComment.getCurrentNickname());
+        }
+        return articleCommentService.save(articleComment) ? ResultGenerator.genSuccessResult("评论成功") : ResultGenerator.genFailResult("评论失败");
     }
 
     @Override

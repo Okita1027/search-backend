@@ -44,7 +44,7 @@ public class FileUploadController {
     private ContentAudioService audioService;
 
     /**
-     * 文件上传接口
+     * 文件上传
      * @param file 上传的文件（音频、视频、图片）
      * @return 上传结果
      */

@@ -9,13 +9,13 @@ import lombok.Setter;
 /**
  * @author qzy
  * @time 2025年4月05日 23:42 星期六
- * @title
+ * @title 管理员VO类
  */
 @Setter
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserVO {
+public class AdminVO {
 
     /**
      * 用户名
