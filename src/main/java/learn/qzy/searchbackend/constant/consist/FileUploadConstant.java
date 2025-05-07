@@ -11,9 +11,9 @@ import java.util.Map;
  */
 public interface FileUploadConstant {
 
-    String PICTURE_UPLOAD_URL = "D:\\DevData\\Web\\Project\\search-front\\public\\picture";
-    String VIDEO_UPLOAD_URL = "D:\\DevData\\Web\\Project\\search-front\\public\\video";
-    String AUDIO_UPLOAD_URL = "D:\\DevData\\Web\\Project\\search-front\\public\\audio";
+    String PICTURE_UPLOAD_URL = "D:\\DevData\\Web\\Project\\search-frontend\\public\\picture";
+    String VIDEO_UPLOAD_URL = "D:\\DevData\\Web\\Project\\search-frontend\\public\\video";
+    String AUDIO_UPLOAD_URL = "D:\\DevData\\Web\\Project\\search-frontend\\public\\audio";
 
     Map<String, List<String>> UPLOAD_TYPE_MAP = Map.of(
             "picture", List.of("jpg", "png", "jpeg", "gif"),

@@ -30,8 +30,8 @@ public class MyMetaObjectHandler implements MetaObjectHandler {
         metaObject.setValue("createTime", LocalDateTime.now());
         metaObject.setValue("updateTime", LocalDateTime.now());
         metaObject.setValue("isDeleted", 0);
-        metaObject.setValue("createBy", StpUtil.getLoginIdAsLong());
-        metaObject.setValue("updateBy", StpUtil.getLoginIdAsLong());
+        metaObject.setValue("createBy", StpUtil.getLoginIdAsString());
+        metaObject.setValue("updateBy", StpUtil.getLoginIdAsString());
     }
 
     /**
@@ -42,7 +42,7 @@ public class MyMetaObjectHandler implements MetaObjectHandler {
         logger.info("公共字段自动填充【update】...");
         metaObject.setValue("editTime", LocalDateTime.now());
         metaObject.setValue("updateTime", LocalDateTime.now());
-        metaObject.setValue("createBy", StpUtil.getLoginIdAsLong());
-        metaObject.setValue("updateBy", StpUtil.getLoginIdAsLong());
+        metaObject.setValue("createBy", StpUtil.getLoginIdAsString());
+        metaObject.setValue("updateBy", StpUtil.getLoginIdAsString());
     }
 }

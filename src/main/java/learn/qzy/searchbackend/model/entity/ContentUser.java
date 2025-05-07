@@ -62,7 +62,7 @@ public class ContentUser extends BaseUserDTO implements Serializable {
     /**
      * 点赞过的评论ID
      */
-    @TableField(typeHandler = JacksonTypeHandler.class)
+    @TableField(value = "favor_comment", typeHandler = JacksonTypeHandler.class)
     private String favorComment;
 
     /**
@@ -73,7 +73,7 @@ public class ContentUser extends BaseUserDTO implements Serializable {
     /**
      * 用户编辑时间
      */
-    @TableField(fill = FieldFill.UPDATE)
+    @TableField(value = "edit_time", fill = FieldFill.UPDATE)
     private LocalDateTime editTime;
 
     /**

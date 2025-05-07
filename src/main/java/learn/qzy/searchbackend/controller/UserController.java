@@ -2,12 +2,14 @@ package learn.qzy.searchbackend.controller;
 
 import cn.dev33.satoken.annotation.SaCheckLogin;
 import cn.dev33.satoken.stp.SaTokenInfo;
+import cn.hutool.core.util.StrUtil;
 import jakarta.annotation.Resource;
 import learn.qzy.searchbackend.model.dto.ContentUserDTO;
 import learn.qzy.searchbackend.model.entity.ContentUser;
 import learn.qzy.searchbackend.model.vo.ContentUserVO;
 import learn.qzy.searchbackend.service.ContentUserService;
 import learn.qzy.searchbackend.util.Result;
+import learn.qzy.searchbackend.util.ResultGenerator;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -42,6 +44,10 @@ public class UserController {
         return userService.login(user);
     }
 
+    /**
+     * 普通用户退出登陆
+     * @return 退出结果
+     */
     @SaCheckLogin
     @PostMapping("/logout")
     public Result logout() {
@@ -55,6 +61,9 @@ public class UserController {
      */
     @GetMapping
     public Result<ContentUserVO> getUserList(@RequestParam String text) {
+        if (StrUtil.isEmpty(text)) {
+            return ResultGenerator.genFailResult("请输入搜索内容");
+        }
         return userService.getUserList(text);
     }
 

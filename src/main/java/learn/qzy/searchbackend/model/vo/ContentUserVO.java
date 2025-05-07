@@ -5,6 +5,11 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+/**
+ * @author qzy
+ * @create 2024/12/12 15:28 星期四
+ * @title 用户信息VO
+ */
 @Getter
 @Setter
 @NoArgsConstructor

@@ -12,6 +12,7 @@ import lombok.Setter;
 
 /**
  * 
+ * @author Administrator
  * @TableName content_article
  */
 @TableName(value ="content_article")
@@ -52,13 +53,13 @@ public class ContentArticle implements Serializable {
     /**
      * 创建人
      */
-    @TableField(fill = FieldFill.INSERT)
+    @TableField(value = "create_by", fill = FieldFill.INSERT)
     private String createBy;
 
     /**
      * 更新人
      */
-    @TableField(fill = FieldFill.UPDATE)
+    @TableField(value = "update_by", fill = FieldFill.UPDATE)
     private String updateBy;
 
     /**

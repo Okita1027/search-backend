@@ -15,8 +15,11 @@ import lombok.Data;
 @TableName(value ="content_video")
 @Data
 public class ContentVideo implements Serializable {
+    @Serial
+    @TableField(exist = false)
+    private static final long serialVersionUID = 1L;
     /**
-     * 
+     * ID
      */
     @TableId(value = "id", type = IdType.AUTO)
     private Long id;
@@ -63,7 +66,4 @@ public class ContentVideo implements Serializable {
     @TableField(value = "is_deleted")
     private Integer isDeleted;
 
-    @Serial
-    @TableField(exist = false)
-    private static final long serialVersionUID = 1L;
 }

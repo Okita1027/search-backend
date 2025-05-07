@@ -29,7 +29,7 @@ public class ArticleCrawlerTask {
     private ContentArticleRepository articleRepository;
 
     // 定时任务：每隔 5 分钟抓取一次文章数据
-    @Scheduled(fixedRate = 300000)
+//    @Scheduled(fixedRate = 300000)
     public void fetchArticle() {
         try {
             String url = "https://api.52vmy.cn/api/wl/s/jzw";

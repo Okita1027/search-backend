@@ -12,9 +12,10 @@ import lombok.Setter;
 
 /**
  * 
- * @TableName content_file
+ * @author Administrator
+ * @TableName content_audio
  */
-@TableName(value ="content_file")
+@TableName(value ="content_audio")
 @Getter
 @Setter
 public class ContentAudio implements Serializable {
@@ -51,13 +52,13 @@ public class ContentAudio implements Serializable {
     /**
      * 创建人
      */
-    @TableField(fill = FieldFill.INSERT)
+    @TableField(value = "create_by", fill = FieldFill.INSERT)
     private String createBy;
 
     /**
      * 修改人
      */
-    @TableField(fill = FieldFill.UPDATE)
+    @TableField(value = "update_by", fill = FieldFill.UPDATE)
     private String updateBy;
 
     /**
