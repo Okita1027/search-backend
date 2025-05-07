@@ -7,9 +7,11 @@ import cn.hutool.core.lang.UUID;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import learn.qzy.searchbackend.mapper.ArticleCommentMapper;
 import learn.qzy.searchbackend.mapper.ContentUserMapper;
 import learn.qzy.searchbackend.model.dto.ContentUserDTO;
 import learn.qzy.searchbackend.model.entity.ArticleComment;
+import learn.qzy.searchbackend.model.entity.CommentLike;
 import learn.qzy.searchbackend.model.entity.ContentArticle;
 import learn.qzy.searchbackend.model.entity.ContentUser;
 import learn.qzy.searchbackend.model.vo.ContentUserVO;
@@ -40,6 +42,8 @@ public class ContentUserServiceImpl extends ServiceImpl<ContentUserMapper, Conte
     private CommentLikeService commentLikeService;
     @Autowired
     private ArticleCommentService articleCommentService;
+    @Autowired
+    private ArticleCommentMapper articleCommentMapper;
     @Autowired
     private ContentArticleService articleService;
 
@@ -124,6 +128,7 @@ public class ContentUserServiceImpl extends ServiceImpl<ContentUserMapper, Conte
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public Result comment(String articleTitle, Long commentId, String commentContent) {
         LambdaQueryWrapper<ContentArticle> wrapper = new LambdaQueryWrapper<>();
         wrapper.eq(ContentArticle::getTitle, articleTitle);
@@ -137,13 +142,27 @@ public class ContentUserServiceImpl extends ServiceImpl<ContentUserMapper, Conte
         articleComment.setCurrentUsername(currentUser.getUsername());
         articleComment.setCurrentNickname(currentUser.getNickname());
 
-        if (commentId != null) {
-            ArticleComment parentComment = articleCommentService.getById(commentId);
+        ArticleComment parentComment = articleCommentService.getById(commentId);
+        if (parentComment != null) {
+            // 回复其它评论(楼中楼)
             articleComment.setSerialNumber(parentComment.getSerialNumber());
             articleComment.setParentUsername(parentComment.getCurrentUsername());
             articleComment.setParentNickname(parentComment.getCurrentNickname());
+        } else {
+            // 发布评论（单开一楼）
+            int serialNumber = articleCommentMapper.selectMaxSerialNumberByArticleId(articleId);
+            articleComment.setSerialNumber(serialNumber + 1);
         }
-        return articleCommentService.save(articleComment) ? ResultGenerator.genSuccessResult("评论成功") : ResultGenerator.genFailResult("评论失败");
+
+        articleCommentService.save(articleComment);
+
+        // 发布评论后，增加一条评论点赞数量的记录
+        CommentLike commentLike = new CommentLike();
+        commentLike.setCommentId(articleComment.getId());
+        commentLike.setLikeCount(0L);
+        commentLikeService.save(commentLike);
+
+        return articleComment.getId() != null ? ResultGenerator.genSuccessResult("评论成功") : ResultGenerator.genFailResult("评论失败");
     }
 
     @Override

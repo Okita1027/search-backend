@@ -104,7 +104,7 @@ public class UserController {
     /**
      * 发布评论
      * @param articleTitle 文章标题
-     * @param commentId 评论ID（如果是回复其它评论，则不为null）
+     * @param commentId 父评论ID（如果是回复其它评论，则不为null）
      * @param commentContent 评论内容
      * @return 评论结果
      */

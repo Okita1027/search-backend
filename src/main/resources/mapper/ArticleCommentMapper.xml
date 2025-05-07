@@ -24,4 +24,10 @@
         id,parent_id,article_id,user_id,content,create_time,
         update_time,create_by,update_by,is_deleted
     </sql>
+
+    <select id="selectMaxSerialNumberByArticleId" resultType="java.lang.Integer">
+        SELECT MAX(serial_number) FROM article_comment
+        WHERE article_id = #{articleId}
+    </select>
+
 </mapper>
