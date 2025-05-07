@@ -5,14 +5,11 @@ import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.lang.UUID;
 import cn.hutool.core.util.StrUtil;
-import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.extension.conditions.update.UpdateChainWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import learn.qzy.searchbackend.mapper.ContentUserMapper;
 import learn.qzy.searchbackend.model.dto.ContentUserDTO;
 import learn.qzy.searchbackend.model.entity.ArticleComment;
-import learn.qzy.searchbackend.model.entity.CommentLike;
 import learn.qzy.searchbackend.model.entity.ContentArticle;
 import learn.qzy.searchbackend.model.entity.ContentUser;
 import learn.qzy.searchbackend.model.vo.ContentUserVO;
@@ -107,18 +104,20 @@ public class ContentUserServiceImpl extends ServiceImpl<ContentUserMapper, Conte
     public Result favorComment(Long commentId) {
         long userId = StpUtil.getLoginIdAsLong();
         ContentUser user = this.getById(userId);
-        List<Long> favorCommentList = JSONUtil.toList(user.getFavorComment(), Long.class);
+        List<Long> favorCommentList = user.getFavorComment();
         // 取消点赞
-        if (favorCommentList.contains(commentId)) {
-            favorCommentList.remove(commentId);
-            user.setFavorComment(JSONUtil.toJsonStr(favorCommentList));
-            this.updateById(user);
-            commentLikeService.update().setSql("like_count = like_count - 1").eq("comment_id", commentId).update();
-            return ResultGenerator.genFailResult("已取消点赞");
+        for (Long favorComment : favorCommentList) {
+            if (favorComment.equals(commentId)) {
+                favorCommentList.remove(commentId);
+                user.setFavorComment(favorCommentList);
+                this.updateById(user);
+                commentLikeService.update().setSql("like_count = like_count - 1").eq("comment_id", commentId).update();
+                return ResultGenerator.genFailResult("已取消点赞");
+            }
         }
         // 点赞
         favorCommentList.add(commentId);
-        user.setFavorComment(JSONUtil.toJsonStr(favorCommentList));
+        user.setFavorComment(favorCommentList);
         this.updateById(user);
         commentLikeService.update().setSql("like_count = like_count + 1").eq("comment_id", commentId).update();
         return ResultGenerator.genSuccessResult("已点赞");
