@@ -13,7 +13,7 @@ import static learn.qzy.searchbackend.constant.enums.ErrorCodeEnum.SYSTEM_ERROR;
  * @create 2024/12/10 13:50 星期二
  * @title 全局异常处理器
  */
-//@RestControllerAdvice
+@RestControllerAdvice
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(BusinessException.class)

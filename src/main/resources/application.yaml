@@ -19,11 +19,11 @@ spring:
     username: root
     password: root
 
-# Elasticsearch 配置
+  # Elasticsearch 配置
   elasticsearch:
     uris: http://localhost:9200
 
-# Redis 配置
+  # Redis 配置
   data:
     redis:
       host: 172.19.159.165
@@ -47,6 +47,7 @@ spring:
       resolve-lazily: false
 
 
+# Mybatis-Plus 配置
 mybatis-plus:
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
@@ -57,6 +58,20 @@ mybatis-plus:
       logic-delete-value: 1
       logic-not-delete-value: 0
   type-handlers-package: learn.qzy.searchbackend.util
+
+
+# 日志处理
+logging:
+  level:
+    # 默认日志级别
+    root: info
+    # 项目包级别
+    learn.qzy.searchbackend: debug
+  file:
+    name: logs/search-backend.log
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} %-5level %logger{36} - %msg%n"
+    file: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
 
 
 # SA-TOKEN配置

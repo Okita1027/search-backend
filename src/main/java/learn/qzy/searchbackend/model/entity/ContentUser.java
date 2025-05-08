@@ -2,7 +2,7 @@ package learn.qzy.searchbackend.model.entity;
 
 import com.baomidou.mybatisplus.annotation.*;
 import learn.qzy.searchbackend.model.dto.BaseUserDTO;
-import learn.qzy.searchbackend.util.JacksonListLongTypeHandler;
+import learn.qzy.searchbackend.config.JacksonListLongTypeHandler;
 import lombok.Getter;
 import lombok.Setter;
 

@@ -2,7 +2,6 @@ package learn.qzy.searchbackend.config;
 
 import cn.dev33.satoken.stp.StpUtil;
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
-import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.reflection.MetaObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,9 +15,9 @@ import java.time.LocalDateTime;
  * @title 自定义元数据对象处理器
  */
 @Component
-public class MyMetaObjectHandler implements MetaObjectHandler {
+public class AutoFillMetaObjectHandler implements MetaObjectHandler {
 
-    Logger logger = LoggerFactory.getLogger(MyMetaObjectHandler.class);
+    Logger logger = LoggerFactory.getLogger(AutoFillMetaObjectHandler.class);
 
     /**
      * @param metaObject 元数据对象

@@ -1,4 +1,4 @@
-package learn.qzy.searchbackend.util;
+package learn.qzy.searchbackend.config;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -18,18 +18,19 @@ import java.util.List;
  * @author qzy
  * @email qinzhiyun1027@163.com
  * @create 2025年5月07日 18:55 星期三
- * @title
+ * @title JSON -> List<Long> 类型处理器
  */
 @MappedTypes({List.class})
 @MappedJdbcTypes({JdbcType.VARCHAR, JdbcType.LONGVARCHAR}) // JSON 通常存储为字符串
 public class JacksonListLongTypeHandler extends BaseTypeHandler<List<Long>> {
-    private static final ObjectMapper objectMapper = new ObjectMapper();
+
+    private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
 
     @Override
     public void setNonNullParameter(PreparedStatement ps, int i, List<Long> parameter, JdbcType jdbcType) throws SQLException {
         try {
             // 将 List<Long> 序列化为 JSON 字符串
-            String json = objectMapper.writeValueAsString(parameter);
+            String json = OBJECT_MAPPER.writeValueAsString(parameter);
             ps.setString(i, json);
         } catch (JsonProcessingException e) {
             throw new SQLException("Error serializing List<Long> to JSON", e);
@@ -60,7 +61,8 @@ public class JacksonListLongTypeHandler extends BaseTypeHandler<List<Long>> {
         }
         try {
             // 将 JSON 字符串反序列化为 List<Long>
-            return objectMapper.readValue(json, new TypeReference<List<Long>>() {});
+            return OBJECT_MAPPER.readValue(json, new TypeReference<>() {
+            });
         } catch (JsonProcessingException e) {
             throw new SQLException("Error deserializing JSON to List<Long>", e);
         }
