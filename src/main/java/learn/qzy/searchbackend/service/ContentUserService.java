@@ -41,4 +41,6 @@ public interface ContentUserService extends IService<ContentUser> {
      * @return 评论结果
      */
     Result comment(String articleTitle, Long commentId, String commentContent);
+
+    Result<ContentUser> getUserDetail(String username);
 }

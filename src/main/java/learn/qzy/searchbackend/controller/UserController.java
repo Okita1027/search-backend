@@ -68,13 +68,23 @@ public class UserController {
     }
 
     /**
-     * 获取某个用户信息
+     * 获取某个用户信息（首页搜索页面）
      * @param username 用户名
      * @return 用户信息
      */
     @GetMapping("/info")
     public Result<ContentUserVO> getUserInfo(@RequestParam String username) {
         return userService.getUserInfo(username);
+    }
+
+    /**
+     * 获取用户详细信息（个人中心页面）
+     * @param username 用户名
+     * @return 用户详细信息
+     */
+    @GetMapping("/detail")
+    public Result<ContentUser> getUserDetail(@RequestParam String username) {
+        return userService.getUserDetail(username);
     }
 
     /**

@@ -166,6 +166,17 @@ public class ContentUserServiceImpl extends ServiceImpl<ContentUserMapper, Conte
     }
 
     @Override
+    public Result<ContentUser> getUserDetail(String username) {
+        LambdaQueryWrapper<ContentUser> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(ContentUser::getUsername, username);
+        ContentUser user = this.getOne(wrapper);
+        if (user != null) {
+            return ResultGenerator.genSuccessResult(user);
+        }
+        return ResultGenerator.genFailResult("没有这个用户");
+    }
+
+    @Override
     public Result updateUserInfo(ContentUserDTO user) {
         if (user.getPassword().equals(user.getRawPassword())) {
             return ResultGenerator.genFailResult("新密码不能与旧密码相同");
