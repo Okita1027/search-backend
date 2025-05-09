@@ -80,21 +80,24 @@ public class FileUploadController {
             case "picture":
                 storagePath = PICTURE_UPLOAD_URL;
                 ContentPicture picture = new ContentPicture();
-                picture.setFilePath(storagePath + "\\" + filename);
+//                picture.setFilePath(storagePath + "\\" + filename);
+                picture.setFilePath("picture/" + filename);
                 picture.setFileName(filename.substring(0, filename.lastIndexOf(".")));
                 pictureService.save(picture);
                 break;
             case "video":
                 storagePath = VIDEO_UPLOAD_URL;
                 ContentVideo video = new ContentVideo();
-                video.setFilePath(storagePath + "\\" + filename);
+//                video.setFilePath(storagePath + "\\" + filename);
+                video.setFilePath("video/" + filename);
                 video.setFileName(filename.substring(0, filename.lastIndexOf(".")));
                 videoService.save(video);
                 break;
             case "audio":
                 storagePath = AUDIO_UPLOAD_URL;
                 ContentAudio audio = new ContentAudio();
-                audio.setFilePath(storagePath + "\\" + filename);
+//                audio.setFilePath(storagePath + "\\" + filename);
+                audio.setFilePath("audio/" + filename);
                 audio.setFileName(filename.substring(0, filename.lastIndexOf(".")));
                 audioService.save(audio);
                 break;

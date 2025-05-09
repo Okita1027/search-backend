@@ -26,4 +26,18 @@
         id,username,password,nickname,gender,profile,phone,email,avatar_url,favor_comment,status,
         edit_time,create_time,update_time,is_deleted
     </sql>
+
+    <select id="selectFileListByUserId" resultType="learn.qzy.searchbackend.model.dto.BaseFileDTO">
+        SELECT file_name, file_path
+        FROM content_audio
+        WHERE create_by = #{id}
+        UNION ALL
+        SELECT file_name, file_path
+        FROM content_picture
+        WHERE create_by = #{id}
+        UNION ALL
+        SELECT file_name, file_path
+        FROM content_video
+        WHERE create_by = #{id};
+    </select>
 </mapper>

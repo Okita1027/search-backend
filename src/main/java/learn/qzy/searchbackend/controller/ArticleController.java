@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 /**
  * @author qzy
  * @create 2024/12/12 15:28 星期四
- * @title
+ * @title 文章接口
  */
 @RestController
 @RequestMapping("/post")
@@ -18,6 +18,16 @@ public class ArticleController {
 
     @Resource
     private ContentArticleService articleService;
+
+    /**
+     * 新增文章
+     * @param articleVO 文章信息
+     * @return 文章id
+     */
+    @PostMapping
+    public Result<Long> addArticle(@RequestBody ContentArticleVO articleVO) {
+        return articleService.addArticle(articleVO);
+    }
 
     /**
      * 获取搜索候选项

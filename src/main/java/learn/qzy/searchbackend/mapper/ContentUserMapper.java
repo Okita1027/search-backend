@@ -1,7 +1,10 @@
 package learn.qzy.searchbackend.mapper;
 
+import learn.qzy.searchbackend.model.dto.BaseFileDTO;
 import learn.qzy.searchbackend.model.entity.ContentUser;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+
+import java.util.List;
 
 /**
 * @author qzy
@@ -11,6 +14,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 */
 public interface ContentUserMapper extends BaseMapper<ContentUser> {
 
+    List<BaseFileDTO> selectFileListByUserId(Long id);
 }
 
 

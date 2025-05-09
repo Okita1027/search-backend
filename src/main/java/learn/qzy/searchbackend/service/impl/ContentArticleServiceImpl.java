@@ -1,5 +1,6 @@
 package learn.qzy.searchbackend.service.impl;
 
+import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import learn.qzy.searchbackend.mapper.ContentArticleMapper;
@@ -222,6 +223,12 @@ public class ContentArticleServiceImpl extends ServiceImpl<ContentArticleMapper,
         result.setCommentLikeDtoMap(dtoMap);
 
         return ResultGenerator.genSuccessResult(result);
+    }
+
+    @Override
+    public Result<Long> addArticle(ContentArticleVO articleVO) {
+        ContentArticle contentArticle = BeanUtil.copyProperties(articleVO, ContentArticle.class);
+        return ResultGenerator.genSuccessResult(this.save(contentArticle) ? contentArticle.getId() : null);
     }
 
 }

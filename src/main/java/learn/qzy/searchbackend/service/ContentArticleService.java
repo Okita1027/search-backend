@@ -19,4 +19,6 @@ public interface ContentArticleService extends IService<ContentArticle> {
     Result<String> getSuggestion(String text);
 
     Result<ArticleDetailVO> getArticleDetail(String text);
+
+    Result<Long> addArticle(ContentArticleVO articleVO);
 }

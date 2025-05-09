@@ -9,11 +9,13 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import learn.qzy.searchbackend.mapper.ArticleCommentMapper;
 import learn.qzy.searchbackend.mapper.ContentUserMapper;
+import learn.qzy.searchbackend.model.dto.BaseFileDTO;
 import learn.qzy.searchbackend.model.dto.ContentUserDTO;
 import learn.qzy.searchbackend.model.entity.ArticleComment;
 import learn.qzy.searchbackend.model.entity.CommentLike;
 import learn.qzy.searchbackend.model.entity.ContentArticle;
 import learn.qzy.searchbackend.model.entity.ContentUser;
+import learn.qzy.searchbackend.model.vo.ContentUserDetailVO;
 import learn.qzy.searchbackend.model.vo.ContentUserVO;
 import learn.qzy.searchbackend.service.ArticleCommentService;
 import learn.qzy.searchbackend.service.CommentLikeService;
@@ -27,7 +29,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author qzy
@@ -46,6 +51,8 @@ public class ContentUserServiceImpl extends ServiceImpl<ContentUserMapper, Conte
     private ArticleCommentMapper articleCommentMapper;
     @Autowired
     private ContentArticleService articleService;
+    @Autowired
+    private ContentUserMapper contentUserMapper;
 
     @Override
     public Result<ContentUserVO> getUserList(String title) {
@@ -166,19 +173,42 @@ public class ContentUserServiceImpl extends ServiceImpl<ContentUserMapper, Conte
     }
 
     @Override
-    public Result<ContentUser> getUserDetail(String username) {
+    public Result<ContentUserDetailVO> getUserDetail(String username) {
+        // 查询用户基本信息
         LambdaQueryWrapper<ContentUser> wrapper = new LambdaQueryWrapper<>();
         wrapper.eq(ContentUser::getUsername, username);
         ContentUser user = this.getOne(wrapper);
         if (user != null) {
-            return ResultGenerator.genSuccessResult(user);
+            ContentUserDetailVO detailVO = BeanUtil.copyProperties(user, ContentUserDetailVO.class);
+            Map<String, List<BaseFileDTO>> fileListMap = new HashMap<>();
+            // 查询用户上传了哪些文件
+            List<BaseFileDTO> fileList = contentUserMapper.selectFileListByUserId(user.getId());
+            List<BaseFileDTO> pictureList = new ArrayList<>();
+            List<BaseFileDTO> audioList = new ArrayList<>();
+            List<BaseFileDTO> videoList = new ArrayList<>();
+            for (BaseFileDTO file : fileList) {
+                String filePath = file.getFilePath();
+                // 根据filePath后缀判断是 图片、音频、视频
+                if (filePath.endsWith(".jpg") || filePath.endsWith(".png")) {
+                    pictureList.add(file);
+                } else if (filePath.endsWith(".mp3") || filePath.endsWith(".flac")) {
+                    audioList.add(file);
+                } else if (filePath.endsWith(".mp4") || filePath.endsWith(".avi")) {
+                    videoList.add(file);
+                }
+            }
+            fileListMap.put("picture", pictureList);
+            fileListMap.put("audio", audioList);
+            fileListMap.put("video", videoList);
+            detailVO.setFileListMap(fileListMap);
+            return ResultGenerator.genSuccessResult(detailVO);
         }
         return ResultGenerator.genFailResult("没有这个用户");
     }
 
     @Override
     public Result updateUserInfo(ContentUserDTO user) {
-        if (user.getPassword().equals(user.getRawPassword())) {
+        if (StrUtil.isNotEmpty(user.getPassword()) && user.getPassword().equals(user.getRawPassword())) {
             return ResultGenerator.genFailResult("新密码不能与旧密码相同");
         }
         LambdaQueryWrapper<ContentUser> wrapper = new LambdaQueryWrapper<>();

@@ -70,7 +70,7 @@ public class ContentPictureServiceImpl extends ServiceImpl<ContentPictureMapper,
      */
     @Override
     public Result<ContentPictureVO> getPictureList(String title) {
-        // 1.从Redis查询是否存在该关键字的图片
+        // 1.从 Redis 查询是否存在该关键字的图片
         List<String> pictureStrList = redisTemplate.opsForList().range(title, 0, -1);
         // 返回图片地址列表
         if (pictureStrList != null && !pictureStrList.isEmpty()) {
@@ -80,11 +80,11 @@ public class ContentPictureServiceImpl extends ServiceImpl<ContentPictureMapper,
             }
             return ResultGenerator.genSuccessResult(pictureVOList);
         }
-        // 2.从MySQL查询是否存在该关键字的图片
+        // 2.从 MySQL 查询是否存在该关键字的图片
         LambdaQueryWrapper<ContentPicture> wrapper = new LambdaQueryWrapper<>();
         wrapper.eq(ContentPicture::getFileName, title);
         List<ContentPicture> pictureList = this.list(wrapper);
-        // 写入Redis缓存、返回图片地址列表
+        // 写入 Redis 缓存、返回图片地址列表
         if (!pictureList.isEmpty()) {
             ArrayList<ContentPictureVO> pictureVOList = new ArrayList<>();
             for (ContentPicture picture : pictureList) {

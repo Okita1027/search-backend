@@ -6,6 +6,7 @@ import cn.hutool.core.util.StrUtil;
 import jakarta.annotation.Resource;
 import learn.qzy.searchbackend.model.dto.ContentUserDTO;
 import learn.qzy.searchbackend.model.entity.ContentUser;
+import learn.qzy.searchbackend.model.vo.ContentUserDetailVO;
 import learn.qzy.searchbackend.model.vo.ContentUserVO;
 import learn.qzy.searchbackend.service.ContentUserService;
 import learn.qzy.searchbackend.util.Result;
@@ -83,7 +84,7 @@ public class UserController {
      * @return 用户详细信息
      */
     @GetMapping("/detail")
-    public Result<ContentUser> getUserDetail(@RequestParam String username) {
+    public Result<ContentUserDetailVO> getUserDetail(@RequestParam String username) {
         return userService.getUserDetail(username);
     }
 
