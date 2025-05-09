@@ -40,4 +40,11 @@
         FROM content_video
         WHERE create_by = #{id};
     </select>
+
+    <select id="selectUserNameById" resultType="java.lang.String">
+        SELECT username
+        FROM content_user
+        WHERE id = #{id};
+    </select>
+
 </mapper>

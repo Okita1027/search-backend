@@ -7,7 +7,7 @@ import lombok.Setter;
  * @author Zhiyun Qin
  * @email qinzhiyun1027@163.com
  * @create 2025/05/09  16:51  星期五
- * @title (文件)DTO类
+ * @title （图片、视频、音频）文件基类
  */
 @Setter
 @Getter

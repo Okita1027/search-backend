@@ -15,8 +15,7 @@ import java.util.List;
 public interface ContentUserMapper extends BaseMapper<ContentUser> {
 
     List<BaseFileDTO> selectFileListByUserId(Long id);
+
+    String selectUserNameById(String createBy);
+
 }
-
-
-
-

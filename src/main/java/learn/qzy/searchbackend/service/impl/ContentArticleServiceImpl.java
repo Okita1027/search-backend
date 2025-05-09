@@ -4,6 +4,7 @@ import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import learn.qzy.searchbackend.mapper.ContentArticleMapper;
+import learn.qzy.searchbackend.mapper.ContentUserMapper;
 import learn.qzy.searchbackend.model.dto.CommentLikeDTO;
 import learn.qzy.searchbackend.model.entity.ArticleComment;
 import learn.qzy.searchbackend.model.entity.ContentArticle;
@@ -12,6 +13,7 @@ import learn.qzy.searchbackend.model.vo.ContentArticleVO;
 import learn.qzy.searchbackend.service.ArticleCommentService;
 import learn.qzy.searchbackend.service.CommentLikeService;
 import learn.qzy.searchbackend.service.ContentArticleService;
+import learn.qzy.searchbackend.service.ContentUserService;
 import learn.qzy.searchbackend.util.ESClient;
 import learn.qzy.searchbackend.util.Result;
 import learn.qzy.searchbackend.util.ResultGenerator;
@@ -29,10 +31,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @author qzy
@@ -49,6 +48,8 @@ public class ContentArticleServiceImpl extends ServiceImpl<ContentArticleMapper,
     private ArticleCommentService articleCommentService;
     @Autowired
     private CommentLikeService commentLikeService;
+    @Autowired
+    private ContentUserMapper contentUserMapper;
 
 
     /**
@@ -196,7 +197,8 @@ public class ContentArticleServiceImpl extends ServiceImpl<ContentArticleMapper,
         result.setContent(article.getContent());
         result.setCreateTime(article.getCreateTime());
         result.setUpdateTime(article.getUpdateTime());
-        result.setCreateBy(article.getCreateBy());
+        String createBy = contentUserMapper.selectUserNameById(article.getCreateBy());
+        result.setCreateBy(Objects.requireNonNullElse(createBy, "管理员"));
 
         // 查询评论
         int serialNumber = 1;
