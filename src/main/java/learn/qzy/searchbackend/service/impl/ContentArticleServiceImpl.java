@@ -13,7 +13,6 @@ import learn.qzy.searchbackend.model.vo.ContentArticleVO;
 import learn.qzy.searchbackend.service.ArticleCommentService;
 import learn.qzy.searchbackend.service.CommentLikeService;
 import learn.qzy.searchbackend.service.ContentArticleService;
-import learn.qzy.searchbackend.service.ContentUserService;
 import learn.qzy.searchbackend.util.ESClient;
 import learn.qzy.searchbackend.util.Result;
 import learn.qzy.searchbackend.util.ResultGenerator;
@@ -44,6 +43,8 @@ public class ContentArticleServiceImpl extends ServiceImpl<ContentArticleMapper,
 
     private static final RestHighLevelClient client = ESClient.createClient();
 
+    @Autowired
+    private ContentArticleMapper contentArticleMapper;
     @Autowired
     private ArticleCommentService articleCommentService;
     @Autowired
@@ -231,6 +232,29 @@ public class ContentArticleServiceImpl extends ServiceImpl<ContentArticleMapper,
     public Result<Long> addArticle(ContentArticleVO articleVO) {
         ContentArticle contentArticle = BeanUtil.copyProperties(articleVO, ContentArticle.class);
         return ResultGenerator.genSuccessResult(this.save(contentArticle) ? contentArticle.getId() : null);
+    }
+
+    @Override
+    public Result<String> updateArticle(ContentArticle article) {
+        LambdaQueryWrapper<ContentArticle> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(ContentArticle::getTitle, article.getTitle());
+        long count = this.count(wrapper);
+        if (count > 1) {
+            return ResultGenerator.genFailResult("文章标题重复");
+        }
+        // TODO 需要同步更新ES中的数据
+        return this.updateById(article) ? ResultGenerator.genSuccessResult("修改成功") : ResultGenerator.genFailResult("修改失败");
+    }
+
+    @Override
+    public Result<List<ContentArticle>> getArticleListAll() {
+        List<ContentArticle> result = contentArticleMapper.selectListAll();
+        return ResultGenerator.genSuccessResult(result);
+    }
+
+    @Override
+    public Result deleteArticle(Long id) {
+        return this.removeById(id) ? ResultGenerator.genSuccessResult("删除成功") : ResultGenerator.genFailResult("删除失败");
     }
 
 }

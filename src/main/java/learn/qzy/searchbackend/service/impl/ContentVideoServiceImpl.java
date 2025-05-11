@@ -27,10 +27,27 @@ public class ContentVideoServiceImpl extends ServiceImpl<ContentVideoMapper, Con
     @Override
     public Result<ContentVideoVO> getVideoList(String fileName) {
         LambdaQueryWrapper<ContentVideo> wrapper = new LambdaQueryWrapper<>();
-        wrapper.like(ContentVideo::getFileName, fileName);
+        wrapper.like(ContentVideo::getFileName, fileName)
+                .eq(ContentVideo::getIsDeleted, 0);
         List<ContentVideo> videoList = list(wrapper);
         List<ContentVideoVO> videoVOList = BeanUtil.copyToList(videoList, ContentVideoVO.class);
         return ResultGenerator.genSuccessResult(videoVOList);
+    }
+
+    @Override
+    public Result deleteVideo(String fileName) {
+        LambdaQueryWrapper<ContentVideo> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(ContentVideo::getFileName, fileName);
+        boolean remove = this.remove(wrapper);
+        if (remove) {
+            return ResultGenerator.genSuccessResult("删除成功");
+        }
+        return ResultGenerator.genFailResult("删除失败");
+    }
+
+    @Override
+    public Result<List<ContentVideoVO>> getVideoListAll() {
+        return ResultGenerator.genSuccessResult(this.list());
     }
 }
 

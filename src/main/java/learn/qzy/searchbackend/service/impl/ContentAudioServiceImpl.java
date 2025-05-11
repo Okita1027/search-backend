@@ -29,10 +29,24 @@ public class ContentAudioServiceImpl extends ServiceImpl<ContentAudioMapper, Con
     @Override
     public Result<ContentAudioVO> getAudioList(String fileName) {
         LambdaQueryWrapper<ContentAudio> wrapper = new LambdaQueryWrapper<>();
-        wrapper.like(ContentAudio::getFileName, fileName);
+        wrapper.like(ContentAudio::getFileName, fileName)
+                .eq(ContentAudio::getIsDeleted, 0);
         List<ContentAudio> audioList = list(wrapper);
         List<ContentAudioVO> audioVOList = BeanUtil.copyToList(audioList, ContentAudioVO.class);
         return ResultGenerator.genSuccessResult(audioVOList);
+    }
+
+    @Override
+    public Result deleteAudio(String fileName) {
+        LambdaQueryWrapper<ContentAudio> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(ContentAudio::getFileName, fileName);
+        boolean remove = this.remove(wrapper);
+        return remove ? ResultGenerator.genSuccessResult("删除成功") : ResultGenerator.genFailResult("删除失败");
+    }
+
+    @Override
+    public Result<List<ContentAudio>> getAudioListAll() {
+        return ResultGenerator.genSuccessResult(this.list());
     }
 
 

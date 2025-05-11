@@ -20,4 +20,14 @@
         id,file_name,file_path,source,create_by,update_by,
         create_time,update_time,is_deleted
     </sql>
+
+    <select id="selectListAll" resultType="learn.qzy.searchbackend.model.entity.ContentPicture">
+        SELECT id, file_name, file_path, source,
+               (SELECT username FROM content_user WHERE id = create_by) AS create_by,
+               (SELECT username FROM content_user WHERE id = update_by) AS update_by,
+               create_time, update_time
+        FROM content_picture
+        WHERE is_deleted = 0
+    </select>
+
 </mapper>

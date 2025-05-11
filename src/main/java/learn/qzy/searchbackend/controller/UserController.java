@@ -2,16 +2,21 @@ package learn.qzy.searchbackend.controller;
 
 import cn.dev33.satoken.annotation.SaCheckLogin;
 import cn.dev33.satoken.stp.SaTokenInfo;
+import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.core.util.StrUtil;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import jakarta.annotation.Resource;
 import learn.qzy.searchbackend.model.dto.ContentUserDTO;
 import learn.qzy.searchbackend.model.entity.ContentUser;
+import learn.qzy.searchbackend.model.vo.AdminContentUserVO;
 import learn.qzy.searchbackend.model.vo.ContentUserDetailVO;
 import learn.qzy.searchbackend.model.vo.ContentUserVO;
 import learn.qzy.searchbackend.service.ContentUserService;
 import learn.qzy.searchbackend.util.Result;
 import learn.qzy.searchbackend.util.ResultGenerator;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * @author qzy
@@ -56,7 +61,16 @@ public class UserController {
     }
 
     /**
-     * 获取用户列表
+     * 获取当前登陆的用户信息
+     * @return 当前登陆的用户信息
+     */
+    @GetMapping("/current")
+    public Result<ContentUser> getCurrentUser() {
+        return userService.getCurrentLoginUser();
+    }
+
+    /**
+     * 获取用户列表（搜索页面）
      * @param text 用户名
      * @return 用户列表
      */
@@ -66,6 +80,15 @@ public class UserController {
             return ResultGenerator.genFailResult("请输入搜索内容");
         }
         return userService.getUserList(text);
+    }
+
+    /**
+     * 获取所有用户列表（管理员页面）
+     * @return 所有用户列表
+     */
+    @GetMapping("/list")
+    public Result<List<AdminContentUserVO>> getUserList() {
+        return userService.getUserListAll();
     }
 
     /**

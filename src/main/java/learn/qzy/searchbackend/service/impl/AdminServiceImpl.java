@@ -46,22 +46,22 @@ public class AdminServiceImpl extends ServiceImpl<UserMapper, Admin>
     }
 
     @Override
-    public Result logout() {
+    public Result<String> logout() {
         StpUtil.logout();
         return ResultGenerator.genSuccessResult("登出成功");
     }
 
     @Override
-    public Result kickOut(SaTokenInfo token) {
-        if (token.isLogin) {
-            StpUtil.kickout(token.getTokenValue());
+    public Result<String> kickOut(Long id) {
+        if (StpUtil.isLogin(id)) {
+            StpUtil.logout(id);
             return ResultGenerator.genSuccessResult();
         }
         return ResultGenerator.genFailResult();
     }
 
     @Override
-    public Result updateStatus(String username, Integer status) {
+    public Result<String> updateStatus(String username, Integer status) {
         LambdaQueryWrapper<ContentUser> wrapper = new LambdaQueryWrapper<ContentUser>().eq(ContentUser::getUsername, username);
         Long userId = userService.getOne(wrapper).getId();
         if (userId != null) {
@@ -72,6 +72,15 @@ public class AdminServiceImpl extends ServiceImpl<UserMapper, Admin>
             }
         }
         return ResultGenerator.genFailResult("用户不存在");
+    }
+
+    @Override
+    public Result<String> deleteUser(Long id) {
+        boolean result = userService.removeById(id);
+        if (result) {
+            return ResultGenerator.genSuccessResult("删除成功");
+        }
+        return ResultGenerator.genFailResult("删除失败");
     }
 
 }

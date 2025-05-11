@@ -29,7 +29,11 @@ public class CaptchaController {
     @Autowired
     private ImageCaptchaApplication imageCaptchaApplication;
 
-
+    /**
+     * 生成验证码
+     * @param type 验证码类型
+     * @return 验证码信息
+     */
     @RequestMapping("/generate")
     @ResponseBody
     public CaptchaResponse<ImageCaptchaVO> genCaptcha(@RequestParam(value = "type", required = false) String type) {
@@ -52,6 +56,11 @@ public class CaptchaController {
         return response;
     }
 
+    /**
+     * 校验验证码
+     * @param data 验证码信息
+     * @return 校验结果
+     */
     @PostMapping("/check")
     @ResponseBody
     public ApiResponse<?> checkCaptcha(@RequestBody Data data) {

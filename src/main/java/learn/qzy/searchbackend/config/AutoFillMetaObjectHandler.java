@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 /**
  * @author qzy
@@ -29,7 +30,11 @@ public class AutoFillMetaObjectHandler implements MetaObjectHandler {
         metaObject.setValue("createTime", LocalDateTime.now());
         metaObject.setValue("isDeleted", 0);
         if (metaObject.hasGetter("createBy")) {
-            metaObject.setValue("createBy", StpUtil.getLoginIdAsString());
+            if (StpUtil.isLogin()) {
+                metaObject.setValue("createBy", StpUtil.getLoginIdAsString());
+            } else {
+                metaObject.setValue("createBy", "1");
+            }
         }
     }
 

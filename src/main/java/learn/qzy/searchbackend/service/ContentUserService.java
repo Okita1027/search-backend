@@ -4,9 +4,12 @@ import cn.dev33.satoken.stp.SaTokenInfo;
 import learn.qzy.searchbackend.model.dto.ContentUserDTO;
 import learn.qzy.searchbackend.model.entity.ContentUser;
 import com.baomidou.mybatisplus.extension.service.IService;
+import learn.qzy.searchbackend.model.vo.AdminContentUserVO;
 import learn.qzy.searchbackend.model.vo.ContentUserDetailVO;
 import learn.qzy.searchbackend.model.vo.ContentUserVO;
 import learn.qzy.searchbackend.util.Result;
+
+import java.util.List;
 
 /**
 * @author qzy
@@ -44,4 +47,9 @@ public interface ContentUserService extends IService<ContentUser> {
     Result comment(String articleTitle, Long commentId, String commentContent);
 
     Result<ContentUserDetailVO> getUserDetail(String username);
+
+    Result<List<AdminContentUserVO>> getUserListAll();
+
+    Result<ContentUser> getCurrentLoginUser();
+
 }

@@ -19,4 +19,11 @@
         id,title,content,
         create_time,update_time,create_by,update_by,is_deleted
     </sql>
+    <select id="selectListAll" resultType="learn.qzy.searchbackend.model.entity.ContentArticle">
+        SELECT id, title, content, create_time, update_time,
+               (SELECT username FROM content_user WHERE id = create_by) AS create_by,
+               (SELECT username FROM content_user WHERE id = update_by) AS update_by
+        FROM content_article
+        WHERE is_deleted = 0
+    </select>
 </mapper>

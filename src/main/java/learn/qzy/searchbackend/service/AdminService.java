@@ -14,9 +14,11 @@ public interface AdminService extends IService<Admin> {
 
     Result<SaTokenInfo> login(Admin admin);
 
-    Result logout();
+    Result<String> logout();
 
-    Result kickOut(SaTokenInfo token);
+    Result<String> kickOut(Long id);
 
-    Result updateStatus(String username, Integer status);
+    Result<String> updateStatus(String username, Integer status);
+
+    Result<String> deleteUser(Long id);
 }

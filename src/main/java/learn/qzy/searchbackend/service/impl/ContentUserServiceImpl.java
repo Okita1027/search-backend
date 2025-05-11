@@ -15,6 +15,7 @@ import learn.qzy.searchbackend.model.entity.ArticleComment;
 import learn.qzy.searchbackend.model.entity.CommentLike;
 import learn.qzy.searchbackend.model.entity.ContentArticle;
 import learn.qzy.searchbackend.model.entity.ContentUser;
+import learn.qzy.searchbackend.model.vo.AdminContentUserVO;
 import learn.qzy.searchbackend.model.vo.ContentUserDetailVO;
 import learn.qzy.searchbackend.model.vo.ContentUserVO;
 import learn.qzy.searchbackend.service.ArticleCommentService;
@@ -57,7 +58,8 @@ public class ContentUserServiceImpl extends ServiceImpl<ContentUserMapper, Conte
     @Override
     public Result<ContentUserVO> getUserList(String title) {
         LambdaQueryWrapper<ContentUser> wrapper = new LambdaQueryWrapper<>();
-        wrapper.like(ContentUser::getNickname, title);
+        wrapper.like(ContentUser::getNickname, title)
+                .eq(ContentUser::getIsDeleted, 0);
         List<ContentUser> userList = this.list(wrapper);
         List<ContentUserVO> userVOList = BeanUtil.copyToList(userList, ContentUserVO.class);
         return ResultGenerator.genSuccessResult(userVOList);
@@ -95,7 +97,8 @@ public class ContentUserServiceImpl extends ServiceImpl<ContentUserMapper, Conte
     @Override
     public Result<ContentUserVO> getUserInfo(String username) {
         LambdaQueryWrapper<ContentUser> wrapper = new LambdaQueryWrapper<>();
-        wrapper.eq(ContentUser::getUsername, username);
+        wrapper.eq(ContentUser::getUsername, username)
+                .eq(ContentUser::getIsDeleted, 0);
         ContentUser user = this.getOne(wrapper);
         if (user != null) {
             ContentUserVO userVO = BeanUtil.copyProperties(user, ContentUserVO.class);
@@ -204,6 +207,26 @@ public class ContentUserServiceImpl extends ServiceImpl<ContentUserMapper, Conte
             return ResultGenerator.genSuccessResult(detailVO);
         }
         return ResultGenerator.genFailResult("没有这个用户");
+    }
+
+    @Override
+    public Result<List<AdminContentUserVO>> getUserListAll() {
+        List<ContentUser> userList = this.list();
+        List<AdminContentUserVO> result = BeanUtil.copyToList(userList, AdminContentUserVO.class);
+        result.forEach(vo -> {
+            vo.setLogin(StpUtil.isLogin(vo.getId()));
+        });
+        return ResultGenerator.genSuccessResult(result);
+    }
+
+    @Override
+    public Result<ContentUser> getCurrentLoginUser() {
+        long userId = StpUtil.getLoginIdAsLong();
+        ContentUser user = this.getById(userId);
+        if (user != null) {
+            return ResultGenerator.genSuccessResult(user);
+        }
+        return ResultGenerator.genFailResult(null);
     }
 
     @Override

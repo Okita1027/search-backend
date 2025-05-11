@@ -6,6 +6,8 @@ import learn.qzy.searchbackend.model.vo.ContentAudioVO;
 import learn.qzy.searchbackend.model.vo.ContentVideoVO;
 import learn.qzy.searchbackend.util.Result;
 
+import java.util.List;
+
 /**
 * @author Administrator
 * @description 针对表【content_video(视频表)】的数据库操作Service
@@ -14,4 +16,9 @@ import learn.qzy.searchbackend.util.Result;
 public interface ContentVideoService extends IService<ContentVideo> {
 
     Result<ContentVideoVO> getVideoList(String fileName);
+
+    Result deleteVideo(String fileName);
+
+    Result<List<ContentVideoVO>> getVideoListAll();
+
 }

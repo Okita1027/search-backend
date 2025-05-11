@@ -1,11 +1,16 @@
 package learn.qzy.searchbackend.controller;
 
+import cn.dev33.satoken.annotation.SaCheckLogin;
 import jakarta.annotation.Resource;
+import learn.qzy.searchbackend.model.entity.ContentArticle;
 import learn.qzy.searchbackend.model.vo.ArticleDetailVO;
 import learn.qzy.searchbackend.model.vo.ContentArticleVO;
 import learn.qzy.searchbackend.service.ContentArticleService;
 import learn.qzy.searchbackend.util.Result;
+import learn.qzy.searchbackend.util.ResultGenerator;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * @author qzy
@@ -24,9 +29,33 @@ public class ArticleController {
      * @param articleVO 文章信息
      * @return 文章id
      */
+    @SaCheckLogin
     @PostMapping
     public Result<Long> addArticle(@RequestBody ContentArticleVO articleVO) {
         return articleService.addArticle(articleVO);
+    }
+
+    /**
+     * 更新文章
+     *
+     * @param article 文章信息
+     * @return 更新结果
+     */
+    @SaCheckLogin
+    @PutMapping
+    public Result<String> updateArticle(@RequestBody ContentArticle article) {
+        return articleService.updateArticle(article);
+    }
+
+    /**
+     * 删除文章
+     * @param id 文章id
+     * @return 删除结果
+     */
+    @SaCheckLogin
+    @DeleteMapping
+    public Result<String> deleteArticle(@RequestParam Long id) {
+        return articleService.deleteArticle(id);
     }
 
     /**
@@ -39,12 +68,23 @@ public class ArticleController {
     }
 
     /**
-     * 获取文章列表
+     * 获取文章列表（搜索页）
      * @param text 文章标题
+     * @return 文章列表
      */
     @GetMapping
     public Result<ContentArticleVO> getArticleList(@RequestParam String text) {
         return articleService.getArticleList(text);
+    }
+
+    /**
+     * 获取文章列表（后台管理系统）
+     *
+     * @return 文章列表
+     */
+    @GetMapping("/list")
+    public Result<List<ContentArticle>> getArticleList() {
+        return articleService.getArticleListAll();
     }
 
     /**

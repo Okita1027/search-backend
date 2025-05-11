@@ -7,6 +7,8 @@ import learn.qzy.searchbackend.model.vo.ArticleDetailVO;
 import learn.qzy.searchbackend.model.vo.ContentArticleVO;
 import learn.qzy.searchbackend.util.Result;
 
+import java.util.List;
+
 /**
 * @author qzy
 * @description 针对表【content_article】的数据库操作Service
@@ -21,4 +23,10 @@ public interface ContentArticleService extends IService<ContentArticle> {
     Result<ArticleDetailVO> getArticleDetail(String text);
 
     Result<Long> addArticle(ContentArticleVO articleVO);
+
+    Result<String> updateArticle(ContentArticle article);
+
+    Result<List<ContentArticle>> getArticleListAll();
+
+    Result<String> deleteArticle(Long id);
 }

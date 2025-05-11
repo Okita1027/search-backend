@@ -8,6 +8,8 @@ import jakarta.annotation.Resource;
 import learn.qzy.searchbackend.model.entity.Admin;
 import learn.qzy.searchbackend.service.AdminService;
 import learn.qzy.searchbackend.util.Result;
+import org.apache.ibatis.annotations.Delete;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -19,7 +21,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/admin")
 public class AdminController {
 
-    @Resource
+    @Autowired
     private AdminService adminService;
 
     /**
@@ -34,23 +36,23 @@ public class AdminController {
 
     /**
      * 管理员登出
-     * @return
+     * @return 登出结果
      */
     @SaCheckLogin
     @PostMapping("/logout")
-    public Result logout() {
+    public Result<String> logout() {
         return adminService.logout();
     }
 
     /**
-     * 踢出在线的用户
-     * @param token 登陆的token信息
+     * 强制下线在线的用户
+     * @param id 用户id
      * @return 踢出结果
      */
     @SaCheckLogin
     @PostMapping("/kickout")
-    public Result kickOut(@RequestParam SaTokenInfo token) {
-        return adminService.kickOut(token);
+    public Result<String> kickOut(@RequestParam Long id) {
+        return adminService.kickOut(id);
     }
 
     /**
@@ -60,7 +62,19 @@ public class AdminController {
      */
     @SaCheckLogin
     @PutMapping("/status")
-    public Result status(@RequestParam String username, @RequestParam Integer status) {
+    public Result<String> status(@RequestParam String username, @RequestParam Integer status) {
         return adminService.updateStatus(username, status);
     }
+
+    /**
+     * 删除用户
+     * @param id 用户id
+     * @return 删除结果
+     */
+    @SaCheckLogin
+    @DeleteMapping("/user")
+    public Result<String> delete(@RequestParam Long id) {
+        return adminService.deleteUser(id);
+    }
+
 }

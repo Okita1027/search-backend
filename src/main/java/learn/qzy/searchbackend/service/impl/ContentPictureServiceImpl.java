@@ -39,6 +39,8 @@ public class ContentPictureServiceImpl extends ServiceImpl<ContentPictureMapper,
         implements ContentPictureService {
 
     @Autowired
+    private ContentPictureMapper contentPictureMapper;
+    @Autowired
     private StringRedisTemplate redisTemplate;
 
     private static Elements elements;
@@ -52,13 +54,15 @@ public class ContentPictureServiceImpl extends ServiceImpl<ContentPictureMapper,
     }
 
     @Override
-    public void deleteExistsPicture(String title) {
+    public int deleteExistsPicture(String title) {
         LambdaQueryWrapper<ContentPicture> wrapper = new LambdaQueryWrapper<>();
         wrapper.eq(ContentPicture::getFileName, title);
         long exists = this.count(wrapper);
         if (exists > 0) {
             this.remove(wrapper);
+            return 1;
         }
+        return 0;
     }
 
 
@@ -115,6 +119,7 @@ public class ContentPictureServiceImpl extends ServiceImpl<ContentPictureMapper,
                 ContentPicture picture = new ContentPicture();
                 picture.setFileName(title);
                 picture.setFilePath(imageUrl);
+                picture.setSource(1);
                 this.save(picture);
                 redisTemplate.opsForList().rightPush(title, imageUrl);
                 pictureVOList.add(new ContentPictureVO(imageUrl));
@@ -123,6 +128,12 @@ public class ContentPictureServiceImpl extends ServiceImpl<ContentPictureMapper,
         }
         // 4.返回数据
         return ResultGenerator.genSuccessResult(pictureVOList);
+    }
+
+    @Override
+    public Result<List<ContentPicture>> getPictureListAll() {
+        List<ContentPicture> pictureList = contentPictureMapper.selectListAll();
+        return ResultGenerator.genSuccessResult(pictureList);
     }
 
     /**
