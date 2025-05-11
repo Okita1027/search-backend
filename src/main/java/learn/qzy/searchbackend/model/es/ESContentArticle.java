@@ -9,6 +9,10 @@ import org.springframework.data.elasticsearch.annotations.FieldType;
 
 import java.time.LocalDateTime;
 
+/**
+ * @author Administrator
+ * 操作ES的文章表实体类
+ */
 @Document(indexName = "content_article")
 @Getter
 @Setter

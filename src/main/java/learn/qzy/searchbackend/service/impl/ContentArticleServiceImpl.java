@@ -3,11 +3,13 @@ package learn.qzy.searchbackend.service.impl;
 import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import learn.qzy.searchbackend.esdao.ContentArticleRepository;
 import learn.qzy.searchbackend.mapper.ContentArticleMapper;
 import learn.qzy.searchbackend.mapper.ContentUserMapper;
 import learn.qzy.searchbackend.model.dto.CommentLikeDTO;
 import learn.qzy.searchbackend.model.entity.ArticleComment;
 import learn.qzy.searchbackend.model.entity.ContentArticle;
+import learn.qzy.searchbackend.model.es.ESContentArticle;
 import learn.qzy.searchbackend.model.vo.ArticleDetailVO;
 import learn.qzy.searchbackend.model.vo.ContentArticleVO;
 import learn.qzy.searchbackend.service.ArticleCommentService;
@@ -18,6 +20,7 @@ import learn.qzy.searchbackend.util.Result;
 import learn.qzy.searchbackend.util.ResultGenerator;
 import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.action.search.SearchResponse;
+import org.elasticsearch.action.update.UpdateRequest;
 import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.RestHighLevelClient;
 import org.elasticsearch.index.query.QueryBuilders;
@@ -28,6 +31,7 @@ import org.elasticsearch.search.suggest.term.TermSuggestion;
 import org.elasticsearch.search.suggest.term.TermSuggestionBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
 import java.util.*;
@@ -44,7 +48,9 @@ public class ContentArticleServiceImpl extends ServiceImpl<ContentArticleMapper,
     private static final RestHighLevelClient client = ESClient.createClient();
 
     @Autowired
-    private ContentArticleMapper contentArticleMapper;
+    private ContentArticleMapper articleMapper;
+    @Autowired
+    private ContentArticleRepository articleRepository;
     @Autowired
     private ArticleCommentService articleCommentService;
     @Autowired
@@ -229,9 +235,20 @@ public class ContentArticleServiceImpl extends ServiceImpl<ContentArticleMapper,
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public Result<Long> addArticle(ContentArticleVO articleVO) {
         ContentArticle contentArticle = BeanUtil.copyProperties(articleVO, ContentArticle.class);
-        return ResultGenerator.genSuccessResult(this.save(contentArticle) ? contentArticle.getId() : null);
+        boolean save = this.save(contentArticle);
+        if (!save) {
+            return ResultGenerator.genFailResult("新增失败");
+        }
+        // 插入ES数据库
+        ESContentArticle esContentArticle = new ESContentArticle();
+        esContentArticle.setId(contentArticle.getId());
+        esContentArticle.setTitle(contentArticle.getTitle());
+        esContentArticle.setContent(contentArticle.getContent());
+        articleRepository.save(esContentArticle);
+        return ResultGenerator.genSuccessResult(contentArticle.getId());
     }
 
     @Override
@@ -242,13 +259,26 @@ public class ContentArticleServiceImpl extends ServiceImpl<ContentArticleMapper,
         if (count > 1) {
             return ResultGenerator.genFailResult("文章标题重复");
         }
-        // TODO 需要同步更新ES中的数据
+        // 同步更新ES中的数据
+        if (articleRepository.existsByTitle(article.getTitle())) {
+            // 查询ES中已存在的文档
+            ESContentArticle existingArticle = articleRepository.findByTitle(article.getTitle());
+            if (existingArticle != null) {
+                // 使用已存在文档的ID
+                ESContentArticle esContentArticle = new ESContentArticle();
+                esContentArticle.setId(existingArticle.getId());
+                esContentArticle.setTitle(article.getTitle());
+                esContentArticle.setContent(article.getContent());
+                articleRepository.save(esContentArticle);
+            }
+
+        }
         return this.updateById(article) ? ResultGenerator.genSuccessResult("修改成功") : ResultGenerator.genFailResult("修改失败");
     }
 
     @Override
     public Result<List<ContentArticle>> getArticleListAll() {
-        List<ContentArticle> result = contentArticleMapper.selectListAll();
+        List<ContentArticle> result = articleMapper.selectListAll();
         return ResultGenerator.genSuccessResult(result);
     }
 

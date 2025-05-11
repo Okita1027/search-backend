@@ -13,4 +13,6 @@ public interface ContentArticleRepository extends ElasticsearchRepository<ESCont
      * 根据title查找文章是否存在
      */
     boolean existsByTitle(String title);
+
+    ESContentArticle findByTitle(String title);
 }

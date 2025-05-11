@@ -1,6 +1,7 @@
 package learn.qzy.searchbackend.controller;
 
 import cn.dev33.satoken.annotation.SaCheckLogin;
+import cn.hutool.core.util.StrUtil;
 import jakarta.annotation.Resource;
 import learn.qzy.searchbackend.model.entity.ContentArticle;
 import learn.qzy.searchbackend.model.vo.ArticleDetailVO;
@@ -37,7 +38,6 @@ public class ArticleController {
 
     /**
      * 更新文章
-     *
      * @param article 文章信息
      * @return 更新结果
      */
@@ -74,12 +74,14 @@ public class ArticleController {
      */
     @GetMapping
     public Result<ContentArticleVO> getArticleList(@RequestParam String text) {
+        if (StrUtil.isEmpty(text)) {
+            return ResultGenerator.genFailResult("搜索关键词不能为空");
+        }
         return articleService.getArticleList(text);
     }
 
     /**
      * 获取文章列表（后台管理系统）
-     *
      * @return 文章列表
      */
     @GetMapping("/list")

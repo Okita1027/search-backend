@@ -1,6 +1,7 @@
 package learn.qzy.searchbackend.controller;
 
 import cn.dev33.satoken.annotation.SaCheckLogin;
+import cn.hutool.core.util.StrUtil;
 import jakarta.annotation.Resource;
 import learn.qzy.searchbackend.model.entity.ContentPicture;
 import learn.qzy.searchbackend.model.vo.ContentPictureVO;
@@ -30,6 +31,9 @@ public class PictureController {
      */
     @GetMapping
     public Result<ContentPictureVO> getPictureList(@RequestParam String text) {
+        if (StrUtil.isEmpty(text)) {
+            return ResultGenerator.genFailResult("搜索关键词不能为空");
+        }
         return pictureService.getPictureList(text);
     }
 

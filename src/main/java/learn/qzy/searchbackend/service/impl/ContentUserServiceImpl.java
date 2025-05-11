@@ -160,7 +160,10 @@ public class ContentUserServiceImpl extends ServiceImpl<ContentUserMapper, Conte
             articleComment.setParentNickname(parentComment.getCurrentNickname());
         } else {
             // 发布评论（单开一楼）
-            int serialNumber = articleCommentMapper.selectMaxSerialNumberByArticleId(articleId);
+            Integer serialNumber = articleCommentMapper.selectMaxSerialNumberByArticleId(articleId);
+            if (serialNumber == null) {
+                serialNumber = 0;
+            }
             articleComment.setSerialNumber(serialNumber + 1);
         }
 
@@ -204,6 +207,8 @@ public class ContentUserServiceImpl extends ServiceImpl<ContentUserMapper, Conte
             fileListMap.put("audio", audioList);
             fileListMap.put("video", videoList);
             detailVO.setFileListMap(fileListMap);
+            // 查询用户点过赞的评论所属的文章名称
+            detailVO.setPostTitleList(contentUserMapper.selectArticleTitleList(user.getFavorComment()));
             return ResultGenerator.genSuccessResult(detailVO);
         }
         return ResultGenerator.genFailResult("没有这个用户");

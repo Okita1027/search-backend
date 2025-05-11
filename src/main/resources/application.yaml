@@ -57,7 +57,7 @@ mybatis-plus:
       logic-delete-field: isDeleted
       logic-delete-value: 1
       logic-not-delete-value: 0
-  type-handlers-package: learn.qzy.searchbackend.util
+  type-handlers-package: learn.qzy.searchbackend.config
 
 
 # 日志处理

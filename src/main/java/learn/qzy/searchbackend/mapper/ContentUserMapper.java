@@ -3,6 +3,7 @@ package learn.qzy.searchbackend.mapper;
 import learn.qzy.searchbackend.model.dto.BaseFileDTO;
 import learn.qzy.searchbackend.model.entity.ContentUser;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -18,4 +19,5 @@ public interface ContentUserMapper extends BaseMapper<ContentUser> {
 
     String selectUserNameById(String createBy);
 
+    List<String> selectArticleTitleList(@Param("favorCommentList") List<Long> favorCommentList);
 }

@@ -7,12 +7,7 @@ import learn.qzy.searchbackend.esdao.ContentArticleRepository;
 import learn.qzy.searchbackend.model.entity.ContentArticle;
 import learn.qzy.searchbackend.model.es.ESContentArticle;
 import learn.qzy.searchbackend.service.ContentArticleService;
-import learn.qzy.searchbackend.util.ESClient;
-import org.elasticsearch.action.index.IndexRequest;
-import org.elasticsearch.client.RequestOptions;
-import org.elasticsearch.client.RestHighLevelClient;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 /**

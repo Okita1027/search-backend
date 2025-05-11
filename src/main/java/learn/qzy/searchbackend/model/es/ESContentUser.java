@@ -10,6 +10,7 @@ import org.springframework.data.elasticsearch.annotations.FieldType;
 import java.time.LocalDateTime;
 
 /**
+ * @author Administrator
  * 这个类用不上，保留它用于以后复习
  */
 @Getter

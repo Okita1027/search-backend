@@ -11,7 +11,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 */
 public interface ArticleCommentMapper extends BaseMapper<ArticleComment> {
 
-    int selectMaxSerialNumberByArticleId(Long articleId);
+    Integer selectMaxSerialNumberByArticleId(Long articleId);
 }
 
 

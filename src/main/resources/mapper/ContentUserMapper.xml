@@ -14,7 +14,7 @@
         <result property="phone" column="phone" jdbcType="VARCHAR"/>
         <result property="email" column="email" jdbcType="VARCHAR"/>
         <result property="avatarUrl" column="avatar_url" jdbcType="VARCHAR"/>
-        <result property="favorComment" column="favor_comment" jdbcType="ARRAY" typeHandler="com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler"/>
+        <result property="favorComment" column="favor_comment" jdbcType="VARCHAR" typeHandler="learn.qzy.searchbackend.config.JacksonListLongTypeHandler"/>
         <result property="status" column="status" jdbcType="TINYINT"/>
         <result property="editTime" column="edit_time" jdbcType="TIMESTAMP"/>
         <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
@@ -45,6 +45,16 @@
         SELECT username
         FROM content_user
         WHERE id = #{id};
+    </select>
+
+    <select id="selectArticleTitleList" resultType="java.lang.String">
+        SELECT title
+        FROM content_article
+        WHERE id IN (SELECT DISTINCT(article_id) FROM article_comment WHERE id IN
+        <foreach collection="favorCommentList" item="favorComment" open="(" separator="," close=")">
+            #{favorComment}
+        </foreach>
+        ) AND is_deleted = 0;
     </select>
 
 </mapper>

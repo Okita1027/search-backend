@@ -18,7 +18,11 @@ import java.util.Map;
 @Setter
 public class ContentUserDetailVO extends ContentUser {
     /**
-     * 文件列表，key为文件类型，value为文件列表
+     * 上传过的文件集合，key为文件类型，value为文件列表
      */
     private Map<String, List<BaseFileDTO>> fileListMap;
+    /**
+     * 点过赞的评论所属的文章集合
+     */
+    private List<String> postTitleList;
 }
