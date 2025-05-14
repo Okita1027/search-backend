@@ -8,6 +8,7 @@ import learn.qzy.searchbackend.model.entity.ContentArticle;
 import learn.qzy.searchbackend.model.es.ESContentArticle;
 import learn.qzy.searchbackend.service.ContentArticleService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 /**

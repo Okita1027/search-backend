@@ -205,7 +205,7 @@ public class ContentArticleServiceImpl extends ServiceImpl<ContentArticleMapper,
         result.setCreateTime(article.getCreateTime());
         result.setUpdateTime(article.getUpdateTime());
         String createBy = contentUserMapper.selectUserNameById(article.getCreateBy());
-        result.setCreateBy(Objects.requireNonNullElse(createBy, "管理员"));
+        result.setCreateBy(Objects.requireNonNullElse(createBy, "1"));
 
         // 查询评论
         int serialNumber = 1;
