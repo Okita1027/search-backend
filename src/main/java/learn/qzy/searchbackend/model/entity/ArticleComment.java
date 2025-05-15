@@ -15,6 +15,10 @@ import lombok.Data;
 @Data
 public class ArticleComment implements Serializable {
 
+    @Serial
+    @TableField(exist = false)
+    private static final long serialVersionUID = 1L;
+
     /**
      * ID主键
      */
@@ -93,7 +97,4 @@ public class ArticleComment implements Serializable {
     @TableField(value = "is_deleted")
     private Integer isDeleted;
 
-    @Serial
-    @TableField(exist = false)
-    private static final long serialVersionUID = 1L;
 }

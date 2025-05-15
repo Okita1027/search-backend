@@ -2,6 +2,9 @@ package learn.qzy.searchbackend.mapper;
 
 import learn.qzy.searchbackend.model.entity.ArticleComment;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import learn.qzy.searchbackend.model.vo.ArticleCommentVO;
+
+import java.util.List;
 
 /**
 * @author Administrator
@@ -12,6 +15,8 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 public interface ArticleCommentMapper extends BaseMapper<ArticleComment> {
 
     Integer selectMaxSerialNumberByArticleId(Long articleId);
+
+    List<ArticleCommentVO> selectListAll();
 }
 
 

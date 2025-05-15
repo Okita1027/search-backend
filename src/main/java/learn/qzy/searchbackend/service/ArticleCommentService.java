@@ -2,6 +2,10 @@ package learn.qzy.searchbackend.service;
 
 import learn.qzy.searchbackend.model.entity.ArticleComment;
 import com.baomidou.mybatisplus.extension.service.IService;
+import learn.qzy.searchbackend.model.vo.ArticleCommentVO;
+import learn.qzy.searchbackend.util.Result;
+
+import java.util.List;
 
 /**
 * @author Administrator
@@ -10,4 +14,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
 */
 public interface ArticleCommentService extends IService<ArticleComment> {
 
+    Result<List<ArticleCommentVO>> getListAll();
 }
