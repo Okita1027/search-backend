@@ -69,7 +69,10 @@ public class ContentUserServiceImpl extends ServiceImpl<ContentUserMapper, Conte
     public Result<SaTokenInfo> login(ContentUser user) {
         String username = user.getUsername();
         String password = user.getPassword();
-        ContentUser realUser = this.getOne(new LambdaQueryWrapper<ContentUser>().eq(ContentUser::getUsername, username));
+        ContentUser realUser = this.getOne(new LambdaQueryWrapper<ContentUser>()
+                .eq(ContentUser::getUsername, username)
+                // 0禁用；1正常
+                .eq(ContentUser::getStatus, 1));
         if (realUser != null) {
             if (PasswordUtil.matches(password, realUser.getPassword())) {
                 StpUtil.login(realUser.getId());

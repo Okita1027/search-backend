@@ -15,7 +15,7 @@ import java.util.List;
 /**
  * @author qzy
  * @create 2024/12/12 15:28 星期四
- * @title
+ * @title 图片管理接口
  */
 @RestController
 @RequestMapping("/picture")
@@ -25,7 +25,7 @@ public class PictureController {
     private ContentPictureService pictureService;
 
     /**
-     * 获取图片列表
+     * 获取图片列表（聚合搜索）
      * @param text 搜索关键词
      * @return 图片的URL
      */
